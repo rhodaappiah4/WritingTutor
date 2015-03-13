@@ -1,0 +1,168 @@
+@import "fonts.css";
+body{
+    margin: 0 auto;
+    /*max-width: 800px;*/
+}
+*::selection{
+    background-color: #ff9f38;
+}
+
+
+#outputArea,#inputArea{
+    font-family: sans-serif;
+    max-width: 100%;
+    min-width: 100%;
+    height: 300px;
+    display: block;
+    border: solid #aaa 1px;
+    overflow: scroll;
+    padding: 20px;
+}
+#outputArea span:hover{
+    background-color: rgba(0, 140, 186, 0.36);
+}
+#essayList_Section {
+    border-right: 1px dashed #795936;
+    height: 100%;
+    padding: 0;
+
+}
+#essayList_Section .essayList{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#essayList_Section li{
+    background-color: #2079A8;
+}
+#essayList_Section a{
+    cursor: pointer;
+    display: block;
+    color: white;
+    padding: 5px;
+    width: 100%;
+}
+
+#essayList_Section li:hover{
+    background-color: #a0537b;
+}
+.sentence{
+    position: relative;
+}
+.thumbs{
+    visibility : hidden;
+    position: absolute;
+    z-index: 900;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    line-height: 16px;
+    vertical-align: middle;
+    overflow: hidden;
+    height: 25px;
+    width: 65px;
+    transition: all 0.4s ease 0.05s;
+}
+.thumbs i{
+    text-align: center;
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    font-size: 20px;
+
+}
+.thumbs i:before{
+    text-align: center;
+    line-height: 19px;
+}
+.thumbs i:hover{
+    box-shadow: inset 0 0 5px #222;
+}
+.thumbs .icon-thumbsup{
+    color: green;
+}
+.thumbs .icon-thumbsdown{
+    color: red;
+}
+.sentence:hover .thumbs{
+    visibility: inherit;
+    transition-delay: 0.0s;
+
+}
+
+#comment{
+    padding: 0 15px 0 0;
+}
+#comment .comm_descriptor{
+    max-width: 100%;
+
+
+}
+#comment i{
+    text-align: center;
+    display: inline-block;
+    width: 48%;
+    height: 100%;
+    font-size: 20px;
+}
+#comment i:before{
+    text-align: center;
+    line-height: 19px;
+}
+#comment i:hover{
+    box-shadow: inset 0 0 5px #222;
+}
+#comment .icon-thumbsup{
+    color: #8bb693;
+}
+#comment .icon-thumbsup.selected{
+    color: #fff;
+    background-color: green;
+}
+#comment .icon-thumbsdown{
+    color: #ffcfd3;
+}
+#comment .icon-thumbsdown.selected {
+    color: #fff;
+    background-color: red;
+}
+.center{
+    margin: 5px auto;
+    width: 700px;
+}
+
+
+
+[class*='error-']{
+    position: relative;
+    border-bottom:2px #312eff solid;
+    font-size: 14px;
+    min-width: 100px;
+}
+.feedback{
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    position: absolute;
+    display: none;
+    min-width: 140px;
+    background-color: rgba(255,255,255,0.95);
+    left: 0;
+    z-index: 90;
+
+}
+[class*='error-']:hover .feedback{
+    display: block;
+}
+
+.error-spelling{
+    border-bottom-color: red;
+}
+
+.error-grammar{
+    border-bottom-color: #38ea22;
+}
+.header {
+    background-color: #aaaaaa;
+}
+.explanation a{
+    cursor: pointer;
+}
