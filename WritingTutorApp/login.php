@@ -6,8 +6,11 @@
  * Time: 3:45 PM
  */
 session_start();	//initiate session for the current login
-
+require "databaseConnection.php";
 $msg="Login";
+
+
+
 if(isset($_REQUEST['username'])){
     //the login form has been submitted
     $username=$_REQUEST['username'];
@@ -72,49 +75,21 @@ if(isset($_REQUEST['username'])){
     </html>
 
 <?php
-//include_once ('adb.php');
+
 function login($user, $pass){
-    //connect to db
-    //select db
-    //if connection fails, return false
-    //query for the $username and $password
-    //if the user with the right password is found,
-    //	return true
-    //else
-    //	return false
-    $database="testPython";	//this database has to exist.
-    $username="root";		//the main admin user of mysql
-    $password="";			//use root password of mysql
-    $server="localhost";	//name of the server
 
-    $link=mysql_connect($server,$username,$password);
-    //if result is false, the connection did not open
-    if(!$link){
-        echo "Failed to connect to mysql.";
-        //display error message from mysql
-        echo mysql_error();
-        return false;	//end script
-    }
-
-    //select the database to work with using the open connection
-    if(!mysql_select_db($database,$link)){
-        echo "Failed to select database.";
-        //display error message from mysql
-        echo mysql_error();
-        exit();
-    }
-
+    $dbConn = new databaseConnection();
     $query = "select user_id,username,user_password,fk_user_type_id from users where username='$user' and user_password=MD5('$pass')";
-    $dataset= mysql_query($query,$link);
+    $dbConn->query($query);
 
-    $num = mysql_num_rows($dataset);
+    $num = $dbConn->get_num_rows();
 
     if ($num == 0){
         return false;
     }
 
     else{
-        $row=mysql_fetch_assoc($dataset);
+        $row=$dbConn->fetch();
         return array($row['user_id'],$row['fk_user_type_id']);
     }
 }

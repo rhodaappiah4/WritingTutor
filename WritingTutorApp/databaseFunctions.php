@@ -105,4 +105,13 @@ class databaseFunctions extends databaseConnection{
         }
         return true;
     }
+
+    function update_sentence_comment($sentence_id,$sentence_quality,$sentence_comment){
+        $sql_query="UPDATE sentences SET sentence_quality='$sentence_quality',sentence_comment='$sentence_comment'
+        WHERE sentence_id=$sentence_id";
+        if (!$this->query($sql_query)){
+            return false;
+        }
+        return true;
+    }
 }

@@ -72,9 +72,12 @@ body{
 }
 .thumbs i:before{
     text-align: center;
-    line-height: 19px;
+    line-height: 23px;
 }
 .thumbs i:hover{
+    font-size: 22px;
+}
+.thumbs i:active{
     box-shadow: inset 0 0 5px #222;
 }
 .thumbs .icon-thumbsup{

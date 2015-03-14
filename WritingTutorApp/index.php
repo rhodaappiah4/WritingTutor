@@ -29,14 +29,14 @@
 </section>
 
 <div id="textAreaHolder" class="columns small-8">
-
+    Title of Essay <input id="title" type="text">
     <textarea class="center" id="inputArea" name="inputArea"></textarea>
     <p class="center" id="outputArea"><span class="sentence"><span class="thumbs"></span></span> </p>
 
     <button class="small" id="submitBtn">Submit</button>
-    <button class="small" id="save">Save to Database</button>
+    <button class="small" id="saveEssay">Save to Database</button>
 </div>
-<section id="comment" class="columns small-2">
+<section id="comment" about="" class="columns small-2">
     <div>
         <div class="comm_descriptor">
             <i class='icon-thumbsup' title='Good sentence'></i>
@@ -44,7 +44,7 @@
         </div>
         <textarea class="comm_text"></textarea>
     </div>
-    <button class="small" id="save">Save comment</button>
+    <button class="small" id="saveComm">Save comment</button>
 </section>
 
 
