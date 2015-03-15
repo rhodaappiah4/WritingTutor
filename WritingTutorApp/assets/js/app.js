@@ -109,53 +109,8 @@ $(document).ready(function(){
             console.log("Bigrams: "+bigrams);
             console.log("Trigrams: "+trigrams);
 
-            atd = $.parseXML(atd.substr(atd.indexOf('<'),atd.lastIndexOf('>')+1));
-            var unformattedStr = input.val();
-            $('#sentence').html("Sentence: "+sentence);
-            $('#nltk').html("POS Tagging: "+nltk);
-            $('#bigrams').html("Bigrams: "+bigrams);
-            $('#trigrams').html("Trigrams: "+trigrams);
-            $(atd).find('error').each(function(key,value){
-                var urldata = $(value).find('url').text();
-                (urldata=="")?urldata="None":urldata='<a target="_blank" href="'+ $(value).find('url').text() + '">View explanation</a>';
-                var errorStr = $(value).find('string').text();
-                var errorType = $(value).find('type').text();
-                var errorSuggestions = $(value).find('suggestions').text();
-                errorSuggestions = errorSuggestions==""?'None':errorSuggestions;
-                var errorFormatted =
-                    '<span class="error-'+ errorType + '">'+
-                    errorStr +
-                    '<div class="feedback">'+
-                    '<div class="header">Error description</div>'+
-                    '<div class="description">'+
-                    $(value).find('description').text()+
-                    '</div>'+
+            errorCheckAMAL();
 
-                    '<div class="header">Suggestions</div>'+
-                    '<div class="suggestions">'+
-                    errorSuggestions +
-                    '</div>'+
-
-                    '<div class="header">Explanation</div>'+
-                    '<div class="explanation">'+
-                    '<div class="url">' +
-                    urldata+
-                    '</div>'+
-                    '</div>'+
-                    '</div>' +
-
-                    '</span>';
-
-                unformattedStr = unformattedStr.replace(errorStr,errorFormatted);
-
-
-            });
-
-            input.hide();
-
-            output.html(unformattedStr);
-            //$('p').html(spanned);
-            output.show();
         });
     });
 
@@ -180,6 +135,58 @@ $(document).ready(function(){
 
 
 });
+
+function errorCheckAMAL(xmlString){
+    atd.substr(atd.indexOf('<'),atd.lastIndexOf('>')+1)
+    atd = $.parseXML(xmlString);
+    var unformattedStr = input.val();
+    $('#sentence').html("Sentence: "+sentence);
+    $('#nltk').html("POS Tagging: "+nltk);
+    $('#bigrams').html("Bigrams: "+bigrams);
+    $('#trigrams').html("Trigrams: "+trigrams);
+    $(atd).find('error').each(function(key,value){
+        var urldata = $(value).find('url').text();
+        urldata=(urldata=="")?"None":'<a target="_blank" href="'+ $(value).find('url').text() + '">View explanation</a>';
+        var errorStr = $(value).find('string').text();
+        var errorType = $(value).find('type').text();
+        var errorSuggestions = $(value).find('suggestions').text();
+        errorSuggestions = errorSuggestions==""?'None':errorSuggestions;
+        var errorFormatted =
+            '<span class="error-'+ errorType + '">'+
+            errorStr +
+            '<div class="feedback">'+
+            '<div class="header">Error description</div>'+
+            '<div class="description">'+
+            $(value).find('description').text()+
+            '</div>'+
+
+            '<div class="header">Suggestions</div>'+
+            '<div class="suggestions">'+
+            errorSuggestions +
+            '</div>'+
+
+            '<div class="header">Explanation</div>'+
+            '<div class="explanation">'+
+            '<div class="url">' +
+            urldata+
+            '</div>'+
+            '</div>'+
+            '</div>' +
+
+            '</span>';
+
+        unformattedStr = unformattedStr.replace(errorStr,errorFormatted);
+
+
+    });
+
+    input.hide();
+
+    output.html(unformattedStr);
+    //$('p').html(spanned);
+    output.show();
+}
+
 
 function highlight(caller){
     highlightColor = 'rgb(127, 255, 212)';
