@@ -108,7 +108,8 @@ $(document).ready(function(){
             console.log("ATD: "+atd);
             console.log("Bigrams: "+bigrams);
             console.log("Trigrams: "+trigrams);
-            errorCheckAMAL(atd.substr(atd.indexOf('<'),atd.lastIndexOf('>')+1));
+
+            errorCheckAMAL();
 
         });
     });
@@ -136,6 +137,7 @@ $(document).ready(function(){
 });
 
 function errorCheckAMAL(xmlString){
+    atd.substr(atd.indexOf('<'),atd.lastIndexOf('>')+1)
     atd = $.parseXML(xmlString);
     var unformattedStr = input.val();
     $('#sentence').html("Sentence: "+sentence);
