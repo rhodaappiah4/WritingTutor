@@ -144,7 +144,7 @@ function errorCheckAMAL(xmlString){
     $('#trigrams').html("Trigrams: "+trigrams);
     $(atd).find('error').each(function(key,value){
         var urldata = $(value).find('url').text();
-        (urldata=="")?urldata="None":urldata='<a target="_blank" href="'+ $(value).find('url').text() + '">View explanation</a>';
+        urldata=(urldata=="")?"None":'<a target="_blank" href="'+ $(value).find('url').text() + '">View explanation</a>';
         var errorStr = $(value).find('string').text();
         var errorType = $(value).find('type').text();
         var errorSuggestions = $(value).find('suggestions').text();
