@@ -128,22 +128,8 @@ class GetHandler(BaseHTTPRequestHandler):
         # message = var_query_string
         if 'sentence' in var_query_string_parsed.keys():
             extracted_sentence = str(var_query_string_parsed["sentence"][0])
-            # message = message +"\r\n"+"|NLTK|"+ extracted_sentence
-            # message = message +"\r\n"+"|break|"
-        
-            self.send_response(200)
-            self.end_headers()
-            # self.wfile.write(message)
-
-            sentence = nltk.sent_tokenize(extracted_sentence)
-            self.wfile.write("|break| %s" %sentence)
-            tokenized = nltk.word_tokenize(extracted_sentence) 
-            tagged = nltk.pos_tag(tokenized)
-            self.wfile.write("\r\n|break| %s" %tagged)
-            bigrams = [" ".join(bigrams) for bigrams in nltk.bigrams(tokenized)]
-            trigrams = [" ".join(trigrams) for trigrams in nltk.trigrams(tokenized)]
-            self.wfile.write("\r\n|break| %s" %bigrams)
-            self.wfile.write("\r\n|break| %s" %trigrams)
+            
+            self.wfile.write("<results></results>")
 
         if 'essay' in var_query_string_parsed.keys():
             print("VQSP:"+str(var_query_string_parsed))
@@ -175,8 +161,7 @@ class GetHandler(BaseHTTPRequestHandler):
             test = var_query_string_parsed["test"]
             print(test[0])
             self.wfile.write(formatter(test[0])) 
- 
-
+  
         return
 
         
