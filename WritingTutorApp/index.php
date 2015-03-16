@@ -8,6 +8,7 @@
     <script type="text/javascript" src="assets/js/csshttprequest.js"></script>
     <script type="text/javascript" src="assets/js/jquery.atd.js"></script>
     <script type="text/javascript" src="assets/js/jquery.atd.textarea.js"></script>
+    <script type="text/javascript" src="assets/js/tinymce/tinymce.min.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
     <link rel="stylesheet" href="assets/css/style.css"><link>
 </head>
@@ -16,7 +17,7 @@
 <div id="userType_Holder" style="display: none"><?php echo $_SESSION['fk_user_type_id'];?></div>
 <nav class="top-bar">
     <ul>
-        <li><a>Welcome, <?php echo $_SESSION['username'];?></a></li>
+        <li><a>Welcome, <?php echo @$_SESSION['username'];?></a></li>
     </ul>
 </nav>
 

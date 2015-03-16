@@ -11,6 +11,15 @@ $(document).ready(function(){
     var userID = $('#userID_Holder').html();
     var userType = $('#userType_Holder').html();
 
+    tinymce.init({
+        selector: "textarea#inputArea",
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+    });
 
     var nltk,atd,bigrams,trigrams,sentence;
     if(userType==2) {
@@ -137,14 +146,14 @@ $(document).ready(function(){
 });
 
 function errorCheckAMAL(xmlString){
-    atd.substr(atd.indexOf('<'),atd.lastIndexOf('>')+1)
-    atd = $.parseXML(xmlString);
+    xmlString = xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1)
+    xmlString = $.parseXML(xmlString);
     var unformattedStr = input.val();
     $('#sentence').html("Sentence: "+sentence);
     $('#nltk').html("POS Tagging: "+nltk);
     $('#bigrams').html("Bigrams: "+bigrams);
     $('#trigrams').html("Trigrams: "+trigrams);
-    $(atd).find('error').each(function(key,value){
+    $(xmlString).find('error').each(function(key,value){
         var urldata = $(value).find('url').text();
         urldata=(urldata=="")?"None":'<a target="_blank" href="'+ $(value).find('url').text() + '">View explanation</a>';
         var errorStr = $(value).find('string').text();
@@ -225,6 +234,8 @@ function showEssay(esID){
         $('#outputArea').html(str);
         $('#inputArea').html(inStr);
     },"json");
+
+;
 }
 
 
