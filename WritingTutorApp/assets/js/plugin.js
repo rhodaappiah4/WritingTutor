@@ -24,15 +24,61 @@ tinymce.PluginManager.add('example', function(editor, url) {
         text: 'My button',
         icon: false,
         onclick: function() {
+            editor.suggestions = [];
             editor.setProgressState(1);
             ReviewRequest_XHR('../ATDWeb/request.php',editor.getContent(),function(xmlString) {
                 console.log(xmlString);
                 xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
+
+                var grammarErrors    = [];
+                var spellingErrors   = [];
+                var enrichment       = [];
+
                 $(xmlString).find('worked').each(function(key,value){
+                    var errorString      = $(value).find('string').text();
+                    var errorType        = $(value).find('type').text();
+                    var errorDescription = $(value).find('description').text();
+                    var errorContext = ($(value).find('precontext') != null)?
+                        $(value).find('precontext').text():"";
+
+                    var suggestion = {};
+                    suggestion["description"] = errorDescription;
+                    suggestion["suggestions"] = [];
+                    suggestion["matcher"]     = new RegExp(errorString.replace(/\s+/, '[' + plugin._getSeparators() + ']'));
+                    suggestion["context"]     = errorContext;
+                    suggestion["string"]      = errorString;
+                    suggestion["type"]        = errorType;
+                    editor.setProgressState(0);
                     console.debug($(value).find('inn').text());
 
+                    if ($(value).find('suggestions') != undefined){
+                        var suggestions =  $(value).find('suggestions').find('option');
+                        for (j = 0; j < suggestions.length; j++){
+                            suggestion["suggestions"].push($(suggestions[j]).text());
+                        }
+                    }
+
+                    //TODO: setup url for explanation
+                    //* setup the more info url */
+                    //if (errors[i].getElementsByTagName('url').item(0) != undefined)
+                    //{
+                    //    var errorUrl = errors[i].getElementsByTagName('url').item(0).firstChild.data;
+                    //    var theme    = editor.getParam("atd_theme", "tinymce");
+                    //    suggestion["moreinfo"] = errorUrl + '&theme=' + theme;
+                    //    //console.log(errorUrl);
+                    //}
+
+                    editor.suggestions.push(suggestion);
+                    if (errorType == "suggestion")
+                        enrichment.push({ word: errorString, pre: errorContext });
+
+                    if (errorType == "grammar")
+                        grammarErrors.push({ word: errorString, pre: errorContext });
+
+                    if (errorType == "spelling" || errorDescription == "Homophone")
+                        spellingErrors.push({ word: errorString, pre: errorContext });
                 });
-                editor.setProgressState(0);
+
             });
             // Open window
             editor.windowManager.open({
