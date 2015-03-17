@@ -12,7 +12,7 @@ if (isset($_REQUEST["parse"])) {
     $contents = file_get_contents($url);
 
 
-    $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD
+    $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
     $contents .= '|break|' . file_get_contents($url);
     var_dump($contents);
 
@@ -35,8 +35,8 @@ if (isset($_REQUEST["parse"])) {
     $url = "http://localhost:8080/?essays_of_user=" . $str ."&basis=" . $basis; //calls python
 
     $content = get_url_contents($url);
-
     print_r($content);
+
 }elseif(isset($_REQUEST['comment_save'])){
     $comm_id = $_REQUEST['comment_save'];
     $quality = $_REQUEST['comm_qly'];
@@ -54,6 +54,10 @@ if (isset($_REQUEST["parse"])) {
     $content = get_url_contents($url);
 
     print_r($url);
+}elseif(isset($_REQUEST['test'])) {
+
+
+    print_r('<worked><inn>'.$_REQUEST["test"].'</inn></worked>');
 }
 
 echo $dataFunctions->err();

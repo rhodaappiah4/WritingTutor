@@ -15,10 +15,11 @@ $(document).ready(function(){
         selector: "textarea#inputArea",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
+            "searchreplace visualblocks code fullscreen","example",
             "insertdatetime media table contextmenu paste"
         ],
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+        toolbar: "example | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        command: "example"
     });
 
     var nltk,atd,bigrams,trigrams,sentence;
@@ -235,7 +236,6 @@ function showEssay(esID){
         $('#inputArea').html(inStr);
     },"json");
 
-;
 }
 
 

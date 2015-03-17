@@ -9,6 +9,7 @@
     <script type="text/javascript" src="assets/js/jquery.atd.js"></script>
     <script type="text/javascript" src="assets/js/jquery.atd.textarea.js"></script>
     <script type="text/javascript" src="assets/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugin.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
     <link rel="stylesheet" href="assets/css/style.css"><link>
 </head>
