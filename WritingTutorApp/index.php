@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php session_start();
+    if($_SESSION['username']==null){
+        header('location: login.php');
+    }
+?>
 <!doctype html>
 <html>
 <head>
@@ -18,7 +22,15 @@
 <div id="userType_Holder" style="display: none"><?php echo $_SESSION['fk_user_type_id'];?></div>
 <nav class="top-bar">
     <ul>
-        <li><a>Welcome, <?php echo @$_SESSION['username'];?></a></li>
+        <li><a>Welcome, <?php echo $_SESSION['username'];?></a></li>
+    </ul>
+    <ul class="right">
+        <li class="has-dropdown">
+            <a href="#"><?php echo $_SESSION['username']!= null? $_SESSION['username'] : "Who are you?"; ?></a>
+            <ul class="dropdown">
+                <li class="active" ><a id="logout" >Logout</a></li>
+            </ul>
+        </li>
     </ul>
 </nav>
 
