@@ -1,13 +1,8 @@
-
-
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package wtute.serv;
 
 import java.io.IOException;
@@ -34,14 +29,23 @@ public class ParseHandler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        String col = (String) request.getParameter("cool");
+        System.out.println("RHODA:"+col);
+        if (col.equals("2")) {
+
+            try (PrintWriter out = response.getWriter()) {
+
+                out.println("simple text");
+            }
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ParseHandler</title>");            
+            out.println("<title>Servlet ParseHandler</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ParseHandler at " + request.getContextPath() + "</h1>");
