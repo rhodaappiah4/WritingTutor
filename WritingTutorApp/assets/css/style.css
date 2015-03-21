@@ -89,7 +89,6 @@ body{
 .sentence:hover .thumbs{
     visibility: inherit;
     transition-delay: 0.0s;
-
 }
 
 #comment{

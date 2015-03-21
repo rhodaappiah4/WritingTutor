@@ -2,28 +2,85 @@
  * Created by HP on 3/17/2015.
  */
 var JSONRequest = tinymce.util.JSONRequest, each = tinymce.each, DOM = tinymce.DOM;
-//var walker = new tinymce.dom.TreeWalker('body');
-function ReviewRequest_XHR(url,reqParam,success){
+var walker = new tinymce.dom.TreeWalker('body');
 
-    tinymce.util.XHR.send({
-        url: url+"?test=" + encodeURI(reqParam).replace(/&/g, '%26'),
-        type: "GET",
-        //data: "test=" + encodeURI(reqParam).replace(/&/g, '%26'),
-       // content_type : "text/xml",
-        success: success,
-        error:function(type,req,o ){
-            alert( type + "\n" + req.status + "\nAt: " + o.url );
-        }
-    });
-}
 
 tinymce.PluginManager.add('example', function(editor, url) {
-    // Add a button that opens a window
-   // ;
+
+    function ReviewRequest_XHR(url,reqParam,success){
+
+        tinymce.util.XHR.send({
+            url: url+"?test=" + encodeURI(reqParam).replace(/&/g, '%26'),
+            type: "GET",
+            //data: "test=" + encodeURI(reqParam).replace(/&/g, '%26'),
+            // content_type : "text/xml",
+            success: success,
+            error:function(type,req,o ){
+                alert( type + "\n" + req.status + "\nAt: " + o.url );
+            }
+        });
+    }
+    function escapeSeparators()
+    {
+        var escapedWSC = '',
+            str = '\\s!#$%&()*+,-./:;<=>?@[\]^_{|}�\u201d\u201c';
+        console.log(str);
+        // Build word separator regexp
+        for (var i=0; i<str.length; i++)
+        {
+            escapedWSC += '\\' + str.charAt(i);
+        }
+        console.log(escapedWSC);
+        return escapedWSC;
+    }
+    function markWords(errors, errortype){
+
+        each(errors, function(d)
+        {
+            var rl = [];
+            var re = escapeSeparators(),w = "";
+            var v = d["word"].replace(/\s+/g, '[' + re + ']');
+            console.log(d);
+            console.log(v);
+
+            if (d["pre"] == "") {
+                //console.log("Pre doint it: '" + v + "'");
+                v =  '(?:(.{0})(' + v + ')(['+re+']*))';
+                console.log(v);
+                rl.push(new RegExp('^(?:(.{0})(' + v + ')(.{0}))', 'g'));
+            } else {
+                v = '(?:(' + d["pre"] + '[' + re + ']+)(' + v + ')(['+re+']))';
+                console.log(v);
+                rl.push(new RegExp(v, 'g'));
+            }
+
+            w += (w ? '|' : '') + v;
+            console.log(w);
+            var newContent =editor.getContent().replace(new RegExp(w, 'g'),"$1<span>$2</span>$3");
+
+            console.log(editor.getBody().createTreeWalker);
+            if(editor.getBody().createTreeWalker){
+                var node = editor.getBody().createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
+                console.log(node);
+                while(node){
+                    node = node.nextNode();
+                    console.log(node);
+                }
+            }
+
+            console.log(newContent);
+            //tinymce.activeEditor.setContent('<span><li>kjhh</li>ki</span>', {format: 'raw'});
+        });
+    }
     editor.addButton('example', {
         text: 'My button',
         icon: false,
         onclick: function() {
+            var walker = new tinymce.dom.TreeWalker('p');
+
+            do {
+                console.log(walker.current());
+            } while (walker.next());
             editor.suggestions = [];
             editor.setProgressState(1);
             ReviewRequest_XHR('../ATDWeb/request.php',editor.getContent(),function(xmlString) {
@@ -34,17 +91,18 @@ tinymce.PluginManager.add('example', function(editor, url) {
                 var spellingErrors   = [];
                 var enrichment       = [];
 
-                $(xmlString).find('worked').each(function(key,value){
+                $(xmlString).find('error').each(function(key,value){
                     var errorString      = $(value).find('string').text();
                     var errorType        = $(value).find('type').text();
                     var errorDescription = $(value).find('description').text();
-                    var errorContext = ($(value).find('precontext') != null)?
+                    console.log($(value).find('precontext'));
+                    var errorContext = ($(value).find('precontext') != undefined)?
                         $(value).find('precontext').text():"";
 
                     var suggestion = {};
                     suggestion["description"] = errorDescription;
                     suggestion["suggestions"] = [];
-                    suggestion["matcher"]     = new RegExp(errorString.replace(/\s+/, '[' + plugin._getSeparators() + ']'));
+                    //suggestion["matcher"]     = new RegExp(errorString.replace(/\s+/, '[' + plugin._getSeparators() + ']'));
                     suggestion["context"]     = errorContext;
                     suggestion["string"]      = errorString;
                     suggestion["type"]        = errorType;
@@ -77,20 +135,12 @@ tinymce.PluginManager.add('example', function(editor, url) {
 
                     if (errorType == "spelling" || errorDescription == "Homophone")
                         spellingErrors.push({ word: errorString, pre: errorContext });
+
                 });
 
+                markWords(spellingErrors,"hiddenGrammar")
             });
-            // Open window
-            editor.windowManager.open({
-                title: 'Example plugin',
-                body: [
-                    {type: 'textbox', name: 'title', label: 'Title'}
-                ],
-                onsubmit: function(e) {
-                    // Insert content when the window form is submitted
-                    editor.insertContent('Title: ' + e.data.title);
-                }
-            });
+
         }
     });
 

@@ -57,7 +57,33 @@ if (isset($_REQUEST["parse"])) {
 }elseif(isset($_REQUEST['test'])) {
 
 
-    print_r('<worked><inn>'.$_REQUEST["test"].'</inn></worked>');
+    print_r('<results>
+  <error>
+    <string>mamsd</string>
+    <description>Spelling</description>
+    <precontext>the</precontext>
+    <suggestions>
+        <option>mass</option>
+        <option>mast</option>
+        <option>mad</option>
+        <option>maps</option>
+        <option>maid</option>
+    </suggestions>
+    <type>spelling</type>
+
+  </error>
+  <error>
+    <string>i</string>
+    <description>Make I uppercase</description>
+    <precontext></precontext>
+    <suggestions>
+        <option>I</option>
+    </suggestions>
+    <type>grammar</type>
+    <url>http://service.afterthedeadline.com/info.slp?text=i&amp;tags=PRP&amp;engine=1</url>
+
+  </error>
+</results>');
 }
 
 echo $dataFunctions->err();
