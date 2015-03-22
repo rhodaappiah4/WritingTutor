@@ -7,10 +7,12 @@ package wtute.serv;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import wtute.parser.EssayParser;
 
 /**
  *
@@ -30,16 +32,26 @@ public class ParseHandler extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String col = (String) request.getParameter("cool");
-        System.out.println("RHODA:"+col);
-        if (col.equals("2")) {
+        Map<String, String[]> ParamMap = request.getParameterMap();
 
+        if (ParamMap.containsKey("essay")) {
+            EssayParser ep = new EssayParser();
             try (PrintWriter out = response.getWriter()) {
-
-                out.println("simple text");
+                out.println(ep.parseEssay(ParamMap.get("essay")[0]));
             }
         }
+
+        if (ParamMap.containsKey("method")) {
+            EssayParser ep = new EssayParser();
+            try (PrintWriter out = response.getWriter()) {
+                if (ParamMap.get("method")[0].equals("2")) {
+                    out.println(ep.tag(ParamMap.get("essay")[0]));
+                }
+            }
+        }
+
         response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");

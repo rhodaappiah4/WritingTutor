@@ -73,7 +73,7 @@ tinymce.PluginManager.add('example', function(editor, url) {
         });
     }
     editor.addButton('example', {
-        text: 'My button',
+        text: 'Review',
         icon: false,
         onclick: function() {
             var walker = new tinymce.dom.TreeWalker('p');
