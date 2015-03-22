@@ -6,11 +6,9 @@
 package wtute.parser;
 
 import edu.stanford.nlp.ling.HasWord;
-import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.process.Tokenizer;
-import edu.stanford.nlp.tagger.common.Tagger;
 import edu.stanford.nlp.trees.GrammaticalStructure;
 import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.Tree;
@@ -22,7 +20,7 @@ import java.util.List;
 
 /**
  *
- * @author HP
+ * @author Rhoda Appiah
  */
 public class EssayParser {
 
@@ -66,8 +64,7 @@ public class EssayParser {
         for (String sentence : sentences) {
             Tokenizer<? extends HasWord> toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(sentence));
             List<? extends HasWord> essayTok = toke.tokenize(); 
-            Tree parseTree = lp.parse(essayTok);
-            
+            Tree parseTree = lp.parse(essayTok); 
             parsedOut += parse(parseTree);
         }
         return parsedOut;

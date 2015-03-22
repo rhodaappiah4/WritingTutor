@@ -31,7 +31,7 @@ public class ParseHandler extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //response.setContentType("text/html;charset=UTF-8");
         Map<String, String[]> ParamMap = request.getParameterMap();
 
         if (ParamMap.containsKey("essay")) {
@@ -41,16 +41,9 @@ public class ParseHandler extends HttpServlet {
             }
         }
 
-        if (ParamMap.containsKey("method")) {
-            EssayParser ep = new EssayParser();
-            try (PrintWriter out = response.getWriter()) {
-                if (ParamMap.get("method")[0].equals("2")) {
-                    out.println(ep.tag(ParamMap.get("essay")[0]));
-                }
-            }
-        }
+     
 
-        response.setContentType("text/html;charset=UTF-8");
+       
 
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
