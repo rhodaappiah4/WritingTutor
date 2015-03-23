@@ -50,7 +50,8 @@ class GetHandler(BaseHTTPRequestHandler):
                         # if (i.endswith('\n') or count == 1):
                         if (newline or count == 1): 
                             
-                            query='INSERT INTO `paragraphs`(fk_essay_id,paragraph_number,paragraph_comment) VALUES ("{!s}","{!s}","{!s}")'.format(essay_id,paragraph_count,"Lovely paragraph")
+                            query=('INSERT INTO `paragraphs`(fk_essay_id,paragraph_number,paragraph_comment) '+ 
+                            'VALUES ("{!s}","{!s}","{!s}")'.format(essay_id,paragraph_count,"Lovely paragraph"))
                             print(query) 
                             cur.execute(query)
                             connect.commit()
