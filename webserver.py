@@ -62,11 +62,27 @@ class GetHandler(BaseHTTPRequestHandler):
                         
                         print("count "+ str(count))
                         print("newl "+str(newline))
-                        query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and count>2)) else paragraph_id,sentence_count,i,"Lovely sentence")
+
+                        
+                        l = []
+                        sent = i
+                        tokenized = nltk.word_tokenize(sent) 
+                        tagged = nltk.pos_tag(tokenized)
+                        count = 0
+
+                        for sent in tagged:
+                            (word,tag)=tagged[count]        
+                            l.append(tag)
+                            count=count+1
+                            # counts number of words in sentence
+                            numberOfWords=len(tagged) 
+
+                        query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and count>2)) else paragraph_id,sentence_count,i,l,numberOfWords,"Lovely sentence")
                         print(query) 
                         cur.execute(query)
                         connect.commit()
                         sentence_count=sentence_count+1
+                            
             cur.close()
             connect.close()
    
