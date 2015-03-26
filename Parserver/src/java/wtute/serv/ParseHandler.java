@@ -40,6 +40,11 @@ public class ParseHandler extends HttpServlet {
                 out.println(ep.parseEssay(ParamMap.get("essay")[0]));
             }
         }
+        if(ParamMap.containsKey("hi")){
+             try (PrintWriter out = response.getWriter()) {
+                out.println(ParamMap.get("hi")[0]);
+            }
+        }
 
      
 
