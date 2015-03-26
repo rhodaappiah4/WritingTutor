@@ -1,23 +1,74 @@
 @relation sentences
 
-@attribute tags {$,(,{,[,],},),,,.,!,?,:,;,...,CC,CD,DT,EX,FW,IN,JJ,JJR,JJS,LS,MD,NN,NNP,NNPS,NNS,PDT,POS,PRP,PRP$,RB,RBR,}
-@attribute temperature {hot, mild, cool}
-@attribute humidity {high, normal}
-@attribute windy {TRUE, FALSE}
-@attribute play {yes, no}
+@attribute tag1 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag2 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag3 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag4 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag5 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag6 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag7 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag8 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag9 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag10 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag11 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag12 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag13 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag14 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag15 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag16 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag17 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag18 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag19 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag20 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag21 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag22 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag23 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag24 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag25 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag26 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag27 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag28 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag29 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag30 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag31 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag32 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag33 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag34 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag35 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag36 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag37 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag38 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag39 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag40 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag41 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag42 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag43 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute sentence_quality {0,1}
 
 @data
-sunny,hot,high,FALSE,no
-sunny,hot,high,TRUE,no
-overcast,hot,high,FALSE,yes
-rainy,mild,high,FALSE,yes
-rainy,cool,normal,FALSE,yes
-rainy,cool,normal,TRUE,no
-overcast,cool,normal,TRUE,yes
-sunny,mild,high,FALSE,no
-sunny,cool,normal,FALSE,yes
-rainy,mild,normal,FALSE,yes
-sunny,mild,normal,TRUE,yes
-overcast,mild,high,TRUE,yes
-overcast,hot,normal,FALSE,yes
-rainy,mild,high,TRUE,no
+'NNP', 'NNP', 'CC', 'PRP', 'VBP', 'DT', 'JJ', 'NN', '.', 1 
+'PRP', ',', 'IN', 'NNP', 'NNP', ',', 'RB', 'NN', 'TO', 'VB', 'DT', 'NNS', 'IN', 'NN', 'IN', 'NN', 'NNS', '.', 1
+'JJ', 'DT', 'NN', 'NN', ',', 'PRP', 'VBD', 'DT', 'JJ', 'IN', 'NN', 'PRP', 'TO', 'DT', 'NNP', 'IN', 'NNP', 'IN', 'PRP$', 'NNP', 'NNP', 'NNP', 'NNP', 'IN', 'CD', '.', 0
+'IN', 'TO', 'DT', 'NN', 'NN', 'VBD', 'VBN', 'PRP$', 'JJ', 'NN', 'NN', ',', 'CD', 'PRP', 'VBD', 'RB', 'TO', 'VB', 'IN', 'NN', 'RB', 'VBZ', 'NNS', '.', 0
+'PRP$', 'NN', 'IN', 'NNP', ',', 'RB', ',', 'VBD', 'IN', '.', 0
+'VBG', 'IN', 'DT', 'JJ', 'NN', 'IN', 'DT', 'JJ', 'NN', 'NN', 'IN', 'DT', 'NN', ',', 'PRP', 'VBD', 'JJR', 'JJ', ',', 'RBR', 'JJ', ',', 'IN', 'PRP', 'RB', 'VBD', 'IN', '.', 1
+'NNP', 'DT', 'NN', 'NNS', 'IN', 'JJ', 'NN', 'CC', 'NNS', 'IN', 'DT', 'NN', 'TO', 'VB', 'CD', 'IN', 'DT', 'RB', 'VBZ', 'IN', 'NNS', ',', 'NNS', ',', 'PRP', 'MD', 'RB', 'VB', 'VBN', 'RBR', 'VBN', '.', 1
+'RB', 'VBN', ',', 'PRP$', 'NN', 'TO', 'RBR', 'VB', 'PRP$', 'NN', 'IN', 'NN', 'NNS', 'PRP', 'TO', 'NNP', 'NNP', '.', 1
+'NNS', 'TO', 'DT', 'NN', ',', 'PRP', 'VBP', 'RB', 'RBR', 'IN', 'RB', 'IN', 'NNP', 'NNP', 'VBZ', 'PRP$', 'JJ', ',', 'IN', 'IN', 'PRP', 'PRP', 'VBP', 'DT', ',', 'JJ', ',', 'NN', 'TO', 'VB', 'PRP$', 'NN', 'IN', 'NN', 'CC', 'NN', '.', 0
+'IN', 'NN', 'TO', 'RB', 'NN', ',', 'PRP', 'VBP', 'VBN', 'TO', 'NNP', 'NNP', 'IN', 'JJ', 'NNS', '.', 1
+'PRP', 'VBP', 'TO', 'VB', 'IN', 'DT', 'JJ', 'NN', 'IN', 'NNS', 'WDT', 'NNP', 'NNP', 'RB', 'VBZ', ':', 'CC', 'WP', 'RB', 'VBP', 'PRP$', 'NN', '.', 1
+'PRP', ',', 'IN', 'PRP', ',', 'VBP', 'RB', 'IN', 'NNP', 'NNP', 'VBZ', 'DT', 'NN', 'IN', 'NN', '.', 1
+'PRP', 'VBP', 'IN', 'JJ', 'NN', 'WDT', 'IN', 'NN', 'TO', 'VB', 'DT', 'NN', ',', 'NN', ',', 'CC', 'NN', 'IN', 'NNP', 'NNP', 'VBZ', ',', 'JJ', 'NNS', 'VBP', 'VBN', 'TO', 'VB', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NNS', '.', 1
+'PRP', 'VBP', 'IN', 'PRP$', 'NN', 'IN', 'DT', 'JJ', 'NNP', 'MD', 'VB', 'DT', 'JJ', 'NN', 'IN', 'DT', 'NN', 'POS', 'NN', 'IN', 'NN', 'IN', 'VBG', 'PRP', 'TO', 'VB', 'DT', 'NN', 'IN', 'JJ', 'NN', '.', 1
+'CC', 'DT', ',', 'RB', ',', 'VBZ', 'DT', 'JJS', 'NN', 'PRP', 'MD', 'VB', '.', 1
+'DT', 'NN', 'IN', 'NN', 'MD', 'RB', 'VB', 'VBN', 'IN', 'DT', 'NN', 'IN', 'VBN', 'NNS', 'VBN', 'IN', 'NNP', 'NNP', '.', 1
+'IN', 'JJ', 'IN', 'PRP$', 'VBG', 'JJ', 'CC', 'JJ', 'NN', ',', 'NNP', 'NNP', 'VBZ', 'VBG', 'DT', 'NN', 'IN', 'VBG', 'DT', 'NN', 'IN', 'DT', 'NN', '.', 1
+'RB', ',', 'DT', 'VBZ', 'RB', 'VB', 'NNS', 'IN', 'JJ', 'PRP', 'TO', 'VB', 'IN', 'RB', 'DT', 'NNS', 'WP', 'RB', 'PRP$', 'JJ', 'NN', '.', 1
+'RB', ',', 'PRP', 'VBZ', 'DT', 'NN', 'NN', 'IN', 'NNS', 'WDT', 'VBZ', 'DT', 'NN', ',', 'IN', 'NN', 'TO', 'NN', ',', 'TO', 'VB', 'DT', 'JJ', 'NN', 'NN', 'WDT', 'RB', 'VBZ', 'DT', 'JJ', 'NN', '.', 1
+'RB', ',', 'NNP', 'NNP', 'VBZ', 'RB', 'RB', 'DT', 'NN', 'NN', 'IN', 'PRP', ',', 'PRP', 'VBZ', 'DT', 'JJ', 'NN', 'IN', 'PRP', '.', 1
+'RB', ',', 'VBG', 'DT', 'JJ', 'NN', 'TO', 'VB', 'DT', 'NN', 'IN', 'NN', 'VBN', 'IN', 'PRP$', 'NN', 'IN', 'DT', 'NNP', 'NN', ',', 'PRP', 'VBP', 'IN', 'PRP', 'MD', 'VB', 'TO', 'NNP', 'NNP', 'IN', 'PRP', 'VBZ', 'TO', 'VB', 'DT', 'JJ', 'NN', 'WDT', 'VBZ', 'JJ', 'NN', '.', 1
+'IN', 'DT', 'NNP', 'IN', 'NNP', 'CC', 'NNP', 'NNP', 'IN', 'NNP', 'NNP', ',', 'PRP', 'MD', 'VB', 'JJ', 'TO', 'VB', 'RB', 'IN', '.', 1
+'IN', 'DT', 'NN', 'WRB', 'NN', 'CC', 'NN', 'VBP', 'VBN', ',', 'PRP', 'MD', 'VB', 'TO', 'VB', 'DT', 'NN', 'IN', 'NNS', 'JJ', 'NN', '.', 0
+'JJ', 'IN', 'NNS', 'IN', 'PRP$', 'NN', 'IN', 'DT', 'NNP', 'NNP', 'NN', ',', 'PRP', 'VBP', 'NNP', 'NNP', 'MD', 'VB', 'DT', 'JJS', 'NN', 'TO', 'VB', 'TO', 'VB', 'PRP$', 'NN', 'IN', 'JJ', 'CC', 'NN', 'NN', '.', 1
+'PRP', 'VBP', 'RB', 'VBN', 'DT', 'NN', 'IN', 'DT', 'NN', 'VBG', 'NN', 'CC', 'VB', 'IN', 'DT', 'JJ', 'NN', 'VBZ', 'NN', '.', 1
+'NNP', ',', 'PRP', 'VBP', 'IN', 'PRP$', 'NN', 'IN', 'NNP', 'NNP', 'MD', 'VB', 'PRP$', 'JJ', 'RB', 'JJ', '.', 1

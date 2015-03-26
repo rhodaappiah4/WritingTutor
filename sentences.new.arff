@@ -1,0 +1,11 @@
+@relation sentences.new
+
+@attribute tag1 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag2 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag3 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute tag4 {'$','(','{','[',']','}',')',',','.','!','?',':',';','...','CC','CD','DT','EX','FW','IN','JJ','JJR','JJS','LS','MD','NN','NNP','NNPS','NNS','PDT','POS','PRP','PRP$','RB','RBR','RBS','RP','SYM','TO','UH','VB','VBD','VBG','VBN','VBP','VBZ','WDT','WP','WP$','WRB'}
+@attribute sentence_quality {0,1}
+
+@data
+'NNP', 'NNP', 'CC', 'PRP', 1 
+'PRP', ',', 'IN', 'NNP', 1
