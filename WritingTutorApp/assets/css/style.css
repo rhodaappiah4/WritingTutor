@@ -93,31 +93,34 @@ body{
 
 #comment{
     padding: 0 15px 0 0;
+    margin-top: 30px;
 }
 #comment .comm_descriptor{
     max-width: 100%;
-
+    margin: 3px 0;
+}
+#comment .comm_text{
+    min-height: 200px;
 }
 #comment .comm_descriptor input{
     display:none;
 }
-#comment .comm_descriptor i{
-    font-size: 24px;
-    opacity: 0.5;
-}
 .comm_descriptor label{
+    font-size: 24px;
     text-align: center;
     padding: 3px;
-    border: 1px solid #ada;
+    color: rgba(128, 128, 128, 0.51);
+    transition: 0.4s all ease-in-out ;
 }
-#comment .comm_descriptor input:checked + i{
-    opacity: 1;
+#comment .comm_descriptor label:hover{
+    background-color: #e9f0ec;
+    color:white;
 }
-#comment .icon-thumbsup{
+#comment .comm_descriptor input:checked + .icon-thumbsup{
     color: #50b80e;
 }
 
-#comment .icon-thumbsdown{
+#comment .comm_descriptor input:checked + .icon-thumbsdown{
     color: #ff2f28;
 }
 

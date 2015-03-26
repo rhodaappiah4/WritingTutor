@@ -24,6 +24,7 @@ $(document).ready(function(){
     });
 
     var nltk,atd,bigrams,trigrams,sentence;
+    //usertype 2 is a tutor
     if(userType==2) {
         input.hide();
         output.show();
@@ -55,6 +56,7 @@ $(document).ready(function(){
             });
             $("#essayList_Section").find(".essayList").html(str);
         },"json");
+        comment.hide();
     }
 
 
