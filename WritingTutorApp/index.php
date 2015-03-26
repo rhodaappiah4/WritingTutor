@@ -59,13 +59,13 @@ if($_SESSION['username']==null){
         <div class="comm_descriptor row">
             <div class="columns small-6">
                 <label>
-                    <input type="radio" name="quality" title='Good sentence'>
+                    <input id="goodSent" type="radio" name="quality" title='Good sentence'>
                     <i class="icon-thumbsup"></i>
                 </label>
             </div>
             <div class="columns small-6">
                 <label>
-                    <input type="radio" name="quality" title='Bad sentence'>
+                    <input id="badSent" type="radio" name="quality" title='Bad sentence'>
                     <i  class="icon-thumbsdown"></i>
                 </label>
             </div>

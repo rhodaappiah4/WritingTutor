@@ -81,13 +81,17 @@ $(document).ready(function(){
         }
     });
     $('#saveComm').click(function() {
-        $.get('../ATDWeb/request.php', {
-            comment_save: comment.attr('about'),
-            comm_qly: comment.find('.icon-thumbsup').hasClass('selected') ? 1 : 0,
-            comm_desc: comment.find('.comm_text').val()
-        }, function (data) {
-            alert('Saved');
-        });
+        if($('#goodSent').is(':checked')||$('#badSent').is(':checked')) {
+            $.get('../ATDWeb/request.php', {
+                comment_save: comment.attr('about'),
+                comm_qly: $('#goodSent').is(':checked') ? 1 : 0,
+                comm_desc: comment.find('.comm_text').val()
+            }, function (data) {
+                alert('Saved');
+            });
+        }else{
+            alert('Please rate the setence.\n Click the like or dislike buttons above the comment box');
+        }
     });
 
     $('#saveEssay').click(function(){
@@ -95,7 +99,7 @@ $(document).ready(function(){
         var checkEssayBody = htmlTAGCleanUp(tMCE.getContent());
         console.log(checkEssayBody);
         var essayTitle = $('#title').val();
-        //var checkEssayDescription =
+
         console.log(encodeURI(checkEssayBody));
         $.get('../ATDWeb/request.php',{userid:userID,saveEssay:2,essay:checkEssayBody,title:essayTitle},function(data){
 
@@ -129,16 +133,7 @@ $(document).ready(function(){
 
     $('#select').click(function(){
         var toCheck = textbox.val();
-        $.get('../ATDWeb/request.php',{selectEssay:2,inputEssay:toCheck},function(data){
-
-            console.log(data);
-
-        });
-    });
-
-    $('#get').click(function(){
-        var toCheck = textbox.val();
-        $.get('../ATDWeb/request.php',{getEssays:2,inputEssay:toCheck},function(data){
+        $.get('../ATDWeb/request.php',{selectEssay:2,essayID:toCheck},function(data){
 
             console.log(data);
 

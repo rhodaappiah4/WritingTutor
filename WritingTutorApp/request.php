@@ -22,7 +22,7 @@ if (isset($_REQUEST["parse"])) {
     var_dump($contents);
 }elseif(isset($_REQUEST['selectEssay'])){
     $str = "";
-    $str = $_REQUEST["inputEssay"];
+    $str = $_REQUEST["essayID"];
     $str = urlencode($str);
     $url = "http://localhost:8080/?essay_by_id=" . $str; //calls python
     $contents = get_url_contents($url);
@@ -38,10 +38,10 @@ if (isset($_REQUEST["parse"])) {
     print_r($content);
 
 }elseif(isset($_REQUEST['comment_save'])){
-    $comm_id = $_REQUEST['comment_save'];
+    $sent_id = $_REQUEST['comment_save'];
     $quality = $_REQUEST['comm_qly'];
     $comment = $_REQUEST['comm_desc'];
-    $dataFunctions->update_sentence_comment($comm_id,$quality,$comment);
+    $dataFunctions->update_sentence_comment($sent_id,$quality,$comment);
 }elseif(isset($_REQUEST['saveEssay'])) {
     $str = "";
     $str = $_REQUEST["essay"];
