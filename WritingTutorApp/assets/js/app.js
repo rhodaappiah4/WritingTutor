@@ -19,7 +19,8 @@ $(document).ready(function(){
             "insertdatetime media table contextmenu paste"
         ],
         toolbar: "review | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-        command: "example"
+        command: "example",
+        statusbar: false
     });
 
     var nltk,atd,bigrams,trigrams,sentence;
@@ -90,10 +91,7 @@ $(document).ready(function(){
     });
 
     $('#saveEssay').click(function(){
-        //TODO:either restore raw test to textarea or call editor to retrieve string
-        //tinyMCE.execCommand('Save content');
         var tMCE = tinyMCE.activeEditor;
-       // var checkEssayBody = input.val();
         var checkEssayBody = htmlTAGCleanUp(tMCE.getContent());
         console.log(checkEssayBody);
         var essayTitle = $('#title').val();

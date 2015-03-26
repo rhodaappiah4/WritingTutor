@@ -97,36 +97,30 @@ body{
 #comment .comm_descriptor{
     max-width: 100%;
 
-
 }
-#comment i{
+#comment .comm_descriptor input{
+    display:none;
+}
+#comment .comm_descriptor i{
+    font-size: 24px;
+    opacity: 0.5;
+}
+.comm_descriptor label{
     text-align: center;
-    display: inline-block;
-    width: 48%;
-    height: 100%;
-    font-size: 20px;
+    padding: 3px;
+    border: 1px solid #ada;
 }
-#comment i:before{
-    text-align: center;
-    line-height: 19px;
-}
-#comment i:hover{
-    box-shadow: inset 0 0 5px #222;
+#comment .comm_descriptor input:checked + i{
+    opacity: 1;
 }
 #comment .icon-thumbsup{
-    color: #8bb693;
+    color: #50b80e;
 }
-#comment .icon-thumbsup.selected{
-    color: #fff;
-    background-color: green;
-}
+
 #comment .icon-thumbsdown{
-    color: #ffcfd3;
+    color: #ff2f28;
 }
-#comment .icon-thumbsdown.selected {
-    color: #fff;
-    background-color: red;
-}
+
 .center{
     margin: 5px auto;
     width: 700px;

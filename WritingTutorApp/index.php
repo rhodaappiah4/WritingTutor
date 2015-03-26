@@ -1,10 +1,10 @@
 <?php session_start();
-    if($_SESSION['username']==null){
-        header('location: login.php');
-    }
+if($_SESSION['username']==null){
+    header('location: login.php');
+}
 ?>
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>WrytaBOT</title>
     <link rel="stylesheet" href="assets/css/foundation.min.css">
@@ -40,9 +40,9 @@
 
 
 <section id="essayList_Section" class="columns small-2">
-        <ul class="essayList">
-            Loading...
-        </ul>
+    <ul class="essayList">
+        Loading...
+    </ul>
 
 </section>
 
@@ -56,9 +56,19 @@
 </div>
 <section id="comment" about="" class="columns small-2">
     <div>
-        <div class="comm_descriptor">
-            <i class='icon-thumbsup' title='Good sentence'></i>
-            <i class='icon-thumbsdown' title='Bad sentence'></i>
+        <div class="comm_descriptor row">
+            <div class="columns small-6">
+                <label>
+                    <input type="radio" name="quality" title='Good sentence'>
+                    <i class="icon-thumbsup"></i>
+                </label>
+            </div>
+            <div class="columns small-6">
+                <label>
+                    <input type="radio" name="quality" title='Bad sentence'>
+                    <i  class="icon-thumbsdown"></i>
+                </label>
+            </div>
         </div>
         <textarea class="comm_text"></textarea>
     </div>
