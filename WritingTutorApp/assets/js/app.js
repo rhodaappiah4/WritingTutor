@@ -213,7 +213,7 @@ function highlight(caller){
 }
 
 function showEssay(esID){
-    $.get('../ATDWeb/request.php',{selectEssay:2,inputEssay:esID},function(data){
+    $.get('../ATDWeb/request.php',{selectEssay:2,essayID:esID},function(data){
         var str = "",inStr = "";
         $.each(data,function(key,value){
             var sentences = value[0].split("|");
