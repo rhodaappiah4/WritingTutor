@@ -99,6 +99,8 @@ $(document).ready(function(){
     $('#saveEssay').click(function(){
         var tMCE = tinyMCE.activeEditor;
         var checkEssayBody = htmlTAGCleanUp(tMCE.getContent());
+        input.val(checkEssayBody);
+        checkEssayBody = input.val();
         console.log(checkEssayBody);
         var essayTitle = $('#title').val();
 
