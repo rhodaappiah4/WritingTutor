@@ -78,8 +78,6 @@ if($_SESSION['username']==null){
     <button class="small" id="saveComm">Save comment</button>
 </section>
 
-
-<!--    <button class="center" id="select">Select Essay</button>-->
 <br><br>
 <div id="sentence"></div><br>
 <div id="nltk"></div><br>

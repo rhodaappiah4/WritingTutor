@@ -75,11 +75,11 @@ $(document).ready(function(){
         comment.find(".comm_text").val($(this).data().comment);
         comment.attr("about",$(this).data().sid);
         if($(this).data().quality == 1){
-            $('#comment .icon-thumbsup').addClass('selected');
-            $('#comment .icon-thumbsdown').removeClass('selected');
+            $('#goodSent').prop('checked',true);
+            $('#badSent').prop('checked',false);
         }else{
-            $('#comment .icon-thumbsdown').addClass('selected');
-            $('#comment .icon-thumbsup').removeClass('selected');
+            $('#goodSent').prop('checked',false);
+            $('#badSent').prop('checked',true);
         }
     });
     $('#saveComm').click(function() {
@@ -131,15 +131,6 @@ $(document).ready(function(){
             console.log("Trigrams: "+trigrams);
 
             errorCheckAMAL();
-
-        });
-    });
-
-    $('#select').click(function(){
-        var toCheck = textbox.val();
-        $.get('../ATDWeb/request.php',{selectEssay:2,essayID:toCheck},function(data){
-
-            console.log(data);
 
         });
     });
