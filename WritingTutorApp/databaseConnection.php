@@ -6,7 +6,7 @@
  * Time: 4:27 PM
  */
 define("DB_HOST", 'localhost');
-define("DB_NAME", 'writingTutor');
+define("DB_NAME", 'test_tutor');
 define("DB_PORT", 3306);
 define("DB_USER","root");
 define("DB_PWORD","");

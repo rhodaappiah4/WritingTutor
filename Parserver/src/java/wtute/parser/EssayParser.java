@@ -53,7 +53,8 @@ public class EssayParser {
         Reader reader = new StringReader(essay);
         DocumentPreprocessor dp = new DocumentPreprocessor(reader);
         for (List<HasWord> sentence : dp) {
-            Tree parseTree = lp.parse(sentence);  
+            Tree parseTree = lp.parse(sentence); 
+            System.out.print(parseTree);
             parsedOut += parse(parseTree); 
         }
         return parsedOut;
@@ -75,7 +76,7 @@ public class EssayParser {
         List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
         toParse.pennPrint();
         System.out.println(tdl);
-        return toParse.pennString() + "\n" + tdl + "\n" +toParse.taggedYield()+"\n\n";
+        return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield()+"\n\n";
     }
     
     

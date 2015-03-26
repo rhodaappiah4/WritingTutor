@@ -20,18 +20,22 @@
 <body>
 <div id="userID_Holder" style="display: none"><?php echo $_SESSION['user_id'];?></div>
 <div id="userType_Holder" style="display: none"><?php echo $_SESSION['fk_user_type_id'];?></div>
-<nav class="top-bar">
-    <ul>
-        <li><a>Welcome, <?php echo $_SESSION['username'];?></a></li>
-    </ul>
-    <ul class="right">
-        <li class="has-dropdown">
-            <a href="#"><?php echo $_SESSION['username']!= null? $_SESSION['username'] : "Who are you?"; ?></a>
-            <ul class="dropdown">
-                <li class="active" ><a id="logout" >Logout</a></li>
-            </ul>
-        </li>
-    </ul>
+
+<nav class="top-bar fixed" data-topbar role="navigation">
+    <section class="top-bar-section">
+
+        <ul class="left">
+            <li><a href="#">Home</a></li>
+        </ul>
+        <ul class="right">
+            <li class="has-dropdown">
+                <a href="#">Hello, <?php echo $_SESSION['username']!= null? $_SESSION['username'] : "Who are you?"; ?></a>
+                <ul class="dropdown">
+                    <li class="active" ><a id="logout" >Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
 </nav>
 
 

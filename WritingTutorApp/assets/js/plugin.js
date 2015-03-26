@@ -5,9 +5,9 @@ var JSONRequest = tinymce.util.JSONRequest, each = tinymce.each, DOM = tinymce.D
 var walker = new tinymce.dom.TreeWalker('body');
 
 
-tinymce.PluginManager.add('example', function(editor, url) {
+tinymce.PluginManager.add('WritingTutor', function(editor, url) {
 
-    function ReviewRequest_XHR(url,reqParam,success){
+    function Request_XHR(url,reqParam,success){
 
         tinymce.util.XHR.send({
             url: url+"?test=" + encodeURI(reqParam).replace(/&/g, '%26'),
@@ -20,8 +20,7 @@ tinymce.PluginManager.add('example', function(editor, url) {
             }
         });
     }
-    function escapeSeparators()
-    {
+    function escapeSeparators() {
         var escapedWSC = '',
             str = '\\s!#$%&()*+,-./:;<=>?@[\]^_{|}�\u201d\u201c';
         console.log(str);
@@ -72,7 +71,7 @@ tinymce.PluginManager.add('example', function(editor, url) {
             //tinymce.activeEditor.setContent('<span><li>kjhh</li>ki</span>', {format: 'raw'});
         });
     }
-    editor.addButton('example', {
+    editor.addButton('review', {
         text: 'Review',
         icon: false,
         onclick: function() {
@@ -83,7 +82,7 @@ tinymce.PluginManager.add('example', function(editor, url) {
             } while (walker.next());
             editor.suggestions = [];
             editor.setProgressState(1);
-            ReviewRequest_XHR('../ATDWeb/request.php',editor.getContent(),function(xmlString) {
+            Request_XHR('../ATDWeb/request.php',editor.getContent(),function(xmlString) {
                 console.log(xmlString);
                 xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
 
@@ -143,6 +142,7 @@ tinymce.PluginManager.add('example', function(editor, url) {
 
         }
     });
+
 
     // Adds a menu item to the tools menu
     editor.addMenuItem('example', {

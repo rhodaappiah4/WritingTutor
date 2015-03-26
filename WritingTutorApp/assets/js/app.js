@@ -15,10 +15,10 @@ $(document).ready(function(){
         selector: "textarea#inputArea",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen","example",
+            "searchreplace visualblocks code fullscreen","WritingTutor",
             "insertdatetime media table contextmenu paste"
         ],
-        toolbar: "example | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar: "review | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         command: "example"
     });
 
@@ -90,13 +90,18 @@ $(document).ready(function(){
     });
 
     $('#saveEssay').click(function(){
-        var checkEssayBody = input.val();
+        //TODO:either restore raw test to textarea or call editor to retrieve string
+        //tinyMCE.execCommand('Save content');
+        var tMCE = tinyMCE.activeEditor;
+       // var checkEssayBody = input.val();
+        var checkEssayBody = htmlTAGCleanUp(tMCE.getContent());
+        console.log(checkEssayBody);
         var essayTitle = $('#title').val();
         //var checkEssayDescription =
         console.log(encodeURI(checkEssayBody));
         $.get('../ATDWeb/request.php',{userid:userID,saveEssay:2,essay:checkEssayBody,title:essayTitle},function(data){
 
-            //console.log(data);
+            tMCE.windowManager.alert("Saved");
 
         });
     });
@@ -238,6 +243,11 @@ function showEssay(esID){
         $('#inputArea').html(inStr);
     },"json");
 
+}
+
+function htmlTAGCleanUp(htmlStr){
+    var regex = new RegExp('<([^>])*>',"g");
+    return htmlStr.replace(regex,"");
 }
 
 
