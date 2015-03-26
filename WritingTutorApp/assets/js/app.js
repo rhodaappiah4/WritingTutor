@@ -38,8 +38,8 @@ $(document).ready(function(){
                     str += '<li><a onclick="showEssay(' + value[0] + ')">' + value[1] + '</a></li>';
                 });
                 console.log("MUT?"+t);
-                var title = ["y","m","o"];
-                str+='<li>'+title[t-1]+'</li>';
+                //var title = ["y","m","o"];
+                //str+='<li>'+title[t-1]+'</li>';
                 $("#essayList_Section").find(".essayList").html(str);
             }, "json");
         }
@@ -69,7 +69,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click','.sentence span',function(){
-        //send sentence id of related comment too to facilitate save
+        //send sentence id of related comment to facilitate save
         comment.find(".comm_text").val($(this).data().comment);
         comment.attr("about",$(this).data().sid);
         if($(this).data().quality == 1){
