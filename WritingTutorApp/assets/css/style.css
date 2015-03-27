@@ -2,9 +2,15 @@
 body{
     margin: 0 auto;
     font-family: "Roboto_Light", sans-serif;
+    background-color: rgba(245, 245, 220, 0.55);;
 }
 h1,h2,h3,h4,h5,h6{
     font-family: "Roboto_Light", sans-serif;
+}
+.card{
+    padding: 21px;
+    background: white;
+    box-shadow: 0 0 6px #CFCDCD;
 }
 *::selection{
     background-color: #ff9f38;
@@ -98,7 +104,7 @@ h1,h2,h3,h4,h5,h6{
 }
 #comment{
     padding: 0 15px 0 0;
-    margin-top: 22px;
+    margin-top: 10px;
 }
 #comment h6{
     font-size: 14px;

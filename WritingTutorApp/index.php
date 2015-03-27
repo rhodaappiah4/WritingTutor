@@ -47,6 +47,7 @@ if($_SESSION['username']==null){
 </section>
 
 <div id="textAreaHolder" class="columns small-8">
+    <div class="card">
     <label>
     Title of Essay <input id="title" type="text">
     </label>
@@ -55,8 +56,10 @@ if($_SESSION['username']==null){
 
     <button class="small" id="submitBtn">Submit</button>
     <button class="small" id="saveEssay">Save to Database</button>
+        </div>
 </div>
 <section id="comment" about="" class="columns small-2">
+    <div class="card">
     <h6>Comments on selected sentence.</h6>
     <div>
         <div class="comm_descriptor row">
@@ -75,7 +78,8 @@ if($_SESSION['username']==null){
         </div>
         <textarea class="comm_text"></textarea>
     </div>
-    <button class="small" id="saveComm">Save comment</button>
+    <button class="small small-12" id="saveComm">Save comment</button>
+    </div>
 </section>
 
 <br><br>
