@@ -20,7 +20,14 @@ $(document).ready(function(){
         ],
         toolbar: "review | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         command: "example",
-        statusbar: false
+        statusbar: false,
+        setup : function(editor) {
+            editor.onInit.add(function(editor) {
+                if (editor.settings.content_css !== false) {
+                    editor.dom.loadCSS(editor.getParam("atd_css_url", '../css/content.css'));
+                }
+            });
+        }
     });
 
     var nltk,atd,bigrams,trigrams,sentence;

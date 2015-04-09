@@ -1,0 +1,18 @@
+.hiddenSpelling
+{
+    border-bottom: 2px solid red;
+    cursor: default;
+}
+
+.hiddenGrammar
+{
+    border-bottom: 2px solid green;
+    cursor: default;
+}
+
+.hiddenEnrich
+{
+    border-bottom: 2px solid blue;
+    cursor: default;
+}
+
