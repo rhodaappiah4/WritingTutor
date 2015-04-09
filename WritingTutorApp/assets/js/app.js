@@ -18,16 +18,17 @@ $(document).ready(function(){
             "searchreplace visualblocks code fullscreen","WritingTutor",
             "insertdatetime media table contextmenu paste"
         ],
+        content_css:"assets/css/content.css",
         toolbar: "review | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         command: "example",
         statusbar: false,
-        setup : function(editor) {
-            editor.onInit.add(function(editor) {
-                if (editor.settings.content_css !== false) {
-                    editor.dom.loadCSS(editor.getParam("atd_css_url", '../css/content.css'));
-                }
-            });
-        }
+        //setup : function(editor) {
+        //    editor.onInit.add(function(editor) {
+        //        if (editor.settings.content_css !== false) {
+        //            editor.dom.loadCSS(editor.getParam("atd_css_url", 'http://localhost:63342/ATDWeb/assets/css/content.css'));
+        //        }
+        //    });
+        //}
     });
 
     var nltk,atd,bigrams,trigrams,sentence;
