@@ -22,7 +22,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
     }
     function escapeSeparators() {
         var escapedWSC = '',
-            str = '\\s!#$%&()*+,-./:;<=>?@[\]^_{|}�\u201d\u201c';
+            str = '\\s!#$%&()*+,-./:;<=>?@[]^_{|}�\u201d\u201c';
         console.log(str);
         // Build word separator regexp
         for (var i=0; i<str.length; i++)
@@ -33,43 +33,72 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
         return escapedWSC;
     }
     function markWords(errors, errortype){
-
-        each(errors, function(d)
+        var regexList = [];var r1;
+        var regexEsc = escapeSeparators(),w = "";
+        each(errors, function(errorData)
         {
-            var rl = [];
-            var re = escapeSeparators(),w = "";
-            var v = d["word"].replace(/\s+/g, '[' + re + ']');
-            console.log(d);
-            console.log(v);
+            var errWordRgxVal = errorData["word"].replace(/\s+/g, '[' + regexEsc + ']');
+            console.log(errorData);
+            console.log(errWordRgxVal);
 
-            if (d["pre"] == "") {
-                //console.log("Pre doint it: '" + v + "'");
-                v =  '(?:(.{0})(' + v + ')(['+re+']*))';
-                console.log(v);
-                rl.push(new RegExp('^(?:(.{0})(' + v + ')(.{0}))', 'g'));
+            if (errorData["pre"] == "") {
+                //console.log("Pre doint it: '" + errWordRgxVal + "'");
+                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+']*))';
+                //console.log(errWordRgxVal);
+                regexList.push(new RegExp('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'));
+                //regexList.push(new RegExp('(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'g'));
             } else {
-                v = '(?:(' + d["pre"] + '[' + re + ']+)(' + v + ')(['+re+']))';
-                console.log(v);
-                rl.push(new RegExp(v, 'g'));
+                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+']))';
+                // console.log(errWordRgxVal);/
+                regexList.push(new RegExp(errWordRgxVal, 'g'));
             }
 
-            w += (w ? '|' : '') + v;
-            console.log(w);
-            var newContent =editor.getContent().replace(new RegExp(w, 'g'),"$1<span>$2</span>$3");
-
-            console.log(editor.getBody().createTreeWalker);
-            if(editor.getBody().createTreeWalker){
-                var node = editor.getBody().createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
-                console.log(node);
-                while(node){
-                    node = node.nextNode();
-                    console.log(node);
-                }
-            }
-
-            console.log(newContent);
-            //tinymce.activeEditor.setContent('<span><li>kjhh</li>ki</span>', {format: 'raw'});
+            w += (w ? '|' : '') + errWordRgxVal;
         });
+        r1 = new RegExp(w);
+        console.log(r1);
+        console.log(regexList);
+        var dom = editor.dom;
+        var newContent="";
+        var document = editor.getDoc(),walker,node;
+        if(document.createTreeWalker){
+            walker = document.createTreeWalker(editor.getBody(), NodeFilter.SHOW_TEXT, null, false);
+            console.log(walker);
+            while((node = walker.nextNode()) != null){
+                console.log(node);
+                console.log(node.nodeType);
+                var nValue = node.nodeValue;
+                var newNode = undefined;
+                if(node.nodeType==3 && !dom.hasClass("hiddenSpelling")&& !dom.hasClass("hiddenGrammar")&& !dom.hasClass("hiddenEnrich")){
+                    nValue = dom.encode(nValue);
+                    console.debug('accepted');
+                    if (r1.test(nValue)) {
+                        each(regexList,function(regex){
+                            console.log("B4:"+nValue);
+                            console.log('RGX:');
+                            console.log(regex);
+                            nValue = nValue.replace(regex, "$1<span class='" + errortype + "'>$2</span>$3");
+                            newContent+=nValue;
+                            console.log("@R:"+newContent);
+                            console.log("@R:"+nValue);
+                        });
+                        newNode = dom.create('span', {'class' : 'mceItemHidden'}, nValue);
+
+                    }
+                    console.debug(newNode);
+                    if (newNode != undefined){
+                        dom.replace(newNode, node);
+                    }
+                }
+
+            }
+
+
+        }
+
+        //console.log(newContent);
+        //tinymce.activeEditor.setContent(newContent, {format: 'raw'});
+
     }
     editor.addButton('review', {
         text: 'Review',
@@ -78,7 +107,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
             var walker = new tinymce.dom.TreeWalker('p');
 
             do {
-                console.log(walker.current());
+                console.log(walker.nextNode());
             } while (walker.next());
             editor.suggestions = [];
             editor.setProgressState(1);
@@ -137,7 +166,9 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
 
                 });
 
-                markWords(spellingErrors,"hiddenGrammar")
+                markWords(grammarErrors,"hiddenGrammar");
+                markWords(spellingErrors,"hiddenSpelling");
+                //markWords(enrichment,"hiddenEnrich");
             });
 
         }
