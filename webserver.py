@@ -42,13 +42,14 @@ class GetHandler(BaseHTTPRequestHandler):
             for line in body:
                     line = line.decode("utf-8")
                     line = line.encode('ascii','xmlcharrefreplace') 
-                    # print(str(line))
+                    print(str(line))
                     sentence = nltk.sent_tokenize(line)
                     sentence_count = 1
                     for i in sentence: 
-                        newline = ("\n" in i)           
-                        # if (i.endswith('\n') or count == 1):
-                        if (newline or count == 1): 
+                        newline = ("\n" in i) or (i == sentence[-1])           
+                        print "LAST:" +body[-1]
+                        print "CURR:" +i
+                        if (newline or sentence_count == 1): 
                             
                             query=('INSERT INTO `paragraphs`(fk_essay_id,paragraph_number,paragraph_comment) '+ 
                             'VALUES ("{!s}","{!s}","{!s}")'.format(essay_id,paragraph_count,"Lovely paragraph"))
@@ -58,7 +59,7 @@ class GetHandler(BaseHTTPRequestHandler):
                             paragraph_count=paragraph_count+1 
                             paragraph_id = cur.lastrowid
                             print("Parid:"+str(paragraph_id))
-                            count=count+1 
+                            sentence_count=sentence_count+1 
                         
                         print("count "+ str(count))
                         print("newl "+str(newline))
@@ -77,7 +78,7 @@ class GetHandler(BaseHTTPRequestHandler):
                             # counts number of words in sentence
                             numberOfWords=len(tagged) 
 
-                        query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
+                        query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
                         print(query) 
                         cur.execute(query)
                         connect.commit()
@@ -89,11 +90,16 @@ class GetHandler(BaseHTTPRequestHandler):
         def getEssay(essay):
             connect = pymysql.connect(host="localhost",port=3306,user="root",password="",db="writingTutor")
             cur = connect.cursor()
-            # query='SELECT sentence FROM sentences,paragraphs,essays WHERE paragraph_id=fk_paragraph_id AND essay_id=fk_essay_id AND essay_id=("{!s}")'.format(essay)
+            """
             query=("SELECT group_concat(sentence SEPARATOR '|'),group_concat(sentence_id SEPARATOR '|'),group_concat(sentence_comment SEPARATOR '|') " +
                 ",group_concat(sentence_quality SEPARATOR '|')"+
                 "FROM sentences,paragraphs,essays WHERE paragraph_id=fk_paragraph_id AND essay_id=fk_essay_id AND essay_id={!s} " +
                 "GROUP BY paragraph_id ORDER BY (sentence_number);").format(essay)
+            """
+            query=("SELECT sentence, sentence_id, sentence_comment, sentence_quality,paragraph_id "+
+                "FROM sentences, paragraphs, essays WHERE paragraph_id = fk_paragraph_id "+
+                "AND essay_id = fk_essay_id AND essay_id = {!s} ORDER BY (sentence_number);").format(essay)
+        
             cur.execute(query)
             results = json.dumps(cur.fetchall())
             print("RES:"+str(results)) 
