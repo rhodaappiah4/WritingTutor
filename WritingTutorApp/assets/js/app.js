@@ -28,6 +28,7 @@ $(document).ready(function(){
     //usertype 2 is a tutor
     if(userType==2) {
         input.hide();
+        $('#submitBtn,#saveEssay').hide();
         output.show();
         var str="";  var t = 0;
         for (var i=1;i<=3;i++) {
@@ -100,6 +101,7 @@ $(document).ready(function(){
     $('#saveEssay').click(function(){
         var tMCE = tinyMCE.activeEditor;
         var checkEssayBody = htmlTAGCleanUp(tMCE.getContent());
+        //checkEssayBody.match()
         input.val(checkEssayBody);
         checkEssayBody = input.val();
         console.log(checkEssayBody);
@@ -207,26 +209,43 @@ function highlight(caller){
 }
 
 function showEssay(esID){
+    var oldVal;
+    function paraNext(newVal){
+        var res;
+        if(oldVal==undefined){
+            oldVal = newVal;
+        }else if((oldVal+1) == newVal){
+            res =  (oldVal+1) == newVal;
+            oldVal = newVal;
+        }
+        return res;
+    }
     $.get('../ATDWeb/request.php',{selectEssay:2,essayID:esID},function(data){
         var str = "",inStr = "";
-        $.each(data,function(key,value){
-            var sentences = value[0].split("|");
-            var sentence_id = value[1].split("|");
-            var comments = value[2].split("|");
-            var quality = value[3].split("|");
-            console.log(comments);
-            $.each(sentences,function(key,value){
-                inStr +=value;
-                //console.log("SI:"+sentence_id[key]);
-                str+= "<span class='sentence'  onclick='highlight(this)'> "+value +
-                "<span data-quality='"+quality[key]+"' data-comment='"+ comments[key] +"' data-sID='"+ sentence_id[key] +"' class='thumbs' style='background-color: rgba(255, 255, 255, 0.96)'>" +
-                "<i class='icon-thumbsup' title='Good sentence'></i>" +
-                "<i class='icon-thumbsdown' title='Bad sentence'></i>" +
-                "</span>" +
-                "</span>";
-            });
-            str+="<br/>";
-            //inStr +="\n";
+        $.each(data,function(key,sentenceData){
+
+            var sentence = sentenceData[0];
+            var sentence_id = sentenceData[1];
+            var comment = sentenceData[2];
+            var quality = sentenceData[3];
+            var paragraphID = sentenceData[4];
+            console.log(comment);
+
+            inStr +=sentence;
+            //console.log("SI:"+sentence_id[key]);
+            str+= "<span class='sentence'  onclick='highlight(this)'> "+ sentence +
+            "<span data-quality='"+quality+"' data-comment='"+ comment +"' data-sID='"+ sentence_id +
+            "' class='thumbs' style='background-color: rgba(255, 255, 255, 0.96)'>" +
+            "<i class='icon-thumbsup' title='Good sentence'></i>" +
+            "<i class='icon-thumbsdown' title='Bad sentence'></i>" +
+            "</span>" +
+            "</span>";
+
+            if(paraNext(paragraphID)){
+                str+="<br/>";
+                inStr +="\n";
+            }
+
         });
         $('#outputArea').html(str);
         $('#inputArea').html(inStr);
