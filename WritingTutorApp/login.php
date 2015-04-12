@@ -25,7 +25,7 @@ if(isset($_REQUEST['username'])){
         exit();
     }else{
         //if login returns false, then something is worng
-        $msg="username or password is wrong";
+        $msg="The username or password is wrong";
     }
 }
 
@@ -52,13 +52,13 @@ if(isset($_REQUEST['username'])){
             </tr>
             <tr>
                 <td width="30%"></td>
-                <td>username</td>
+                <td>Username</td>
                 <td><input type="text" name="username"></td>
                 <td width="30%"></td>
             </tr>
             <tr>
                 <td width="30%"></td>
-                <td>password</td>
+                <td>Password</td>
                 <td><input type="password" name="password"></td>
                 <td  width="30%"></td>
             </tr>

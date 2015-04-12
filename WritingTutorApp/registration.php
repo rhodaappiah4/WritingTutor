@@ -36,15 +36,20 @@ if(isset($_REQUEST['register'])){
 }
 ?>
 
-<html>
-<!--<head>-->
-<!--    <link rel="stylesheet" href="css/foundation.min.css">-->
-<!--    <link rel="stylesheet" href="css/style.css">-->
-<!--    <script src="jquery-1.11.0.js" type="text/javascript"></script>-->
-<!--    <script src="foundation.min.js" type="text/javascript"></script>-->
-<!--    <script type="text/javascript" src="app.js"></script>-->
-<!--    <title>Registration</title>-->
-<!--</head>-->
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>WrytaBOT</title>
+    <link rel="stylesheet" href="assets/css/foundation.min.css">
+    <script type="text/javascript" src="assets/js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="assets/js/csshttprequest.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.atd.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.atd.textarea.js"></script>
+    <script type="text/javascript" src="assets/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugin.js"></script>
+    <script type="text/javascript" src="assets/js/app.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css"><link>
+</head>
 <body>
 <form action="registration.php" method="GET">
     <div>First Name:<input type="text" size=12 name="firstname"></div>
@@ -65,7 +70,13 @@ if(isset($_REQUEST['register'])){
     </select>
     <input type="submit" name="register" value="Register">
 </form>
-</body>
 
+
+
+</body>
+<script type="text/javascript" src="assets/js/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+</script>
 </html>
 

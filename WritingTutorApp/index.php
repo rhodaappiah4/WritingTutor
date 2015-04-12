@@ -54,7 +54,7 @@ if($_SESSION['username']==null){
     <textarea class="center" id="inputArea" name="inputArea"></textarea>
     <p class="center" id="outputArea"><span class="sentence"><span class="thumbs"></span></span> </p>
 
-    <button class="small" id="submitBtn">Submit</button>
+<!--    <button class="small" id="submitBtn">Submit</button>-->
     <button class="small" id="saveEssay">Save to Database</button>
         </div>
 </div>
