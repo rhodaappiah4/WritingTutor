@@ -3,7 +3,7 @@
 require_once "databaseFunctions.php";
 $dataFunctions = new databaseFunctions();
 
-if (isset($_REQUEST["parse"])) {
+if (isset($_REQUEST["analyze"])) {
 
     $str = "";
     $str = $_REQUEST["inputArea"];
@@ -13,7 +13,8 @@ if (isset($_REQUEST["parse"])) {
 
 
     $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
-    $contents .= '|break|' . file_get_contents($url);
+    //$contents .= '|break|' . file_get_contents($url);
+    $contents .= file_get_contents($url);
     var_dump($contents);
 
 }elseif(isset($_REQUEST["explain"])) {

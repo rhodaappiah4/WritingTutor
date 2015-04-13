@@ -43,8 +43,8 @@ public class TextCategorizationTest {
     //System.out.println("\n\nFiltered data:\n\n" + dataFiltered);
 
         // train J48 and output model
-//        J48 classifier = new J48();
-//        classifier.buildClassifier(dataFiltered);
-//        System.out.println("\n\nClassifier model:\n\n" + classifier);
+        J48 classifier = new J48();
+        classifier.buildClassifier(dataFiltered);
+        System.out.println("\n\nClassifier model:\n\n" + classifier);
     }
 }

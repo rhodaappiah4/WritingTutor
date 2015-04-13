@@ -34,10 +34,9 @@ class GetHandler(BaseHTTPRequestHandler):
             print(query) 
             cur.execute(query)
             connect.commit()
-
             paragraph_count=1
             paragraph_id = 0  
-            count = 1
+            newP_count = 1
             #Format of body ['paragraph1\n','paragraph2\n']
             for line in body:
                     line = line.decode("utf-8")
@@ -46,11 +45,10 @@ class GetHandler(BaseHTTPRequestHandler):
                     sentence = nltk.sent_tokenize(line)
                     sentence_count = 1
                     for i in sentence: 
-                        newline = ("\n" in i) or (i == sentence[-1])           
+                        newline = ("\n" in i) or (i == body[-1])           
                         print "LAST:" +body[-1]
                         print "CURR:" +i
-                        if (newline or sentence_count == 1): 
-                            
+                        if (newline or newP_count == 1): 
                             query=('INSERT INTO `paragraphs`(fk_essay_id,paragraph_number,paragraph_comment) '+ 
                             'VALUES ("{!s}","{!s}","{!s}")'.format(essay_id,paragraph_count,"Lovely paragraph"))
                             print(query) 
@@ -59,9 +57,9 @@ class GetHandler(BaseHTTPRequestHandler):
                             paragraph_count=paragraph_count+1 
                             paragraph_id = cur.lastrowid
                             print("Parid:"+str(paragraph_id))
-                            sentence_count=sentence_count+1 
+                            newP_count=newP_count+1 
                         
-                        print("count "+ str(count))
+                        print("count "+ str(newP_count))
                         print("newl "+str(newline))
 
                         
@@ -69,16 +67,14 @@ class GetHandler(BaseHTTPRequestHandler):
                         sent = i
                         tokenized = nltk.word_tokenize(sent) 
                         tagged = nltk.pos_tag(tokenized)
-                        count = 0
-
-                        for sent in tagged:
-                            (word,tag)=tagged[count]        
-                            taglist.append(tag)
-                            count=count+1
+                        numberOfWords = 0 
+                        for taggedWord in tagged:
+                            (word,tag)=taggedWord        
+                            taglist.append(tag) 
                             # counts number of words in sentence
                             numberOfWords=len(tagged) 
 
-                        query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
+                        query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and newP_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
                         print(query) 
                         cur.execute(query)
                         connect.commit()
@@ -98,7 +94,7 @@ class GetHandler(BaseHTTPRequestHandler):
             """
             query=("SELECT sentence, sentence_id, sentence_comment, sentence_quality,paragraph_id "+
                 "FROM sentences, paragraphs, essays WHERE paragraph_id = fk_paragraph_id "+
-                "AND essay_id = fk_essay_id AND essay_id = {!s} ORDER BY (sentence_number);").format(essay)
+                "AND essay_id = fk_essay_id AND essay_id = {!s} ORDER BY (sentence_id);").format(essay)
         
             cur.execute(query)
             results = json.dumps(cur.fetchall())

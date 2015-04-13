@@ -40,6 +40,8 @@ h1,h2,h3,h4,h5,h6{
     margin: 0;
     padding: 0;
     list-style: none;
+    height: 100%;
+    background-color: white;
 }
 #essayList_Section li{
     background-color: #2079A8;
@@ -54,6 +56,14 @@ h1,h2,h3,h4,h5,h6{
 
 #essayList_Section li:hover{
     background-color: #a0537b;
+}
+#essayList_Section li:active{
+    background-color: #793f5c;
+}
+#essayList_Section img{
+    float: right;
+    display: none;
+    width: 20px;
 }
 .sentence{
     position: relative;
@@ -146,39 +156,3 @@ h1,h2,h3,h4,h5,h6{
     width: 700px;
 }
 
-
-
-[class*='error-']{
-    position: relative;
-    border-bottom:2px #312eff solid;
-    font-size: 14px;
-    min-width: 100px;
-}
-.feedback{
-    border: 1px solid #aaa;
-    border-radius: 2px;
-    position: absolute;
-    display: none;
-    min-width: 140px;
-    background-color: rgba(255,255,255,0.95);
-    left: 0;
-    z-index: 90;
-
-}
-[class*='error-']:hover .feedback{
-    display: block;
-}
-
-.error-spelling{
-    border-bottom-color: red;
-}
-
-.error-grammar{
-    border-bottom-color: #38ea22;
-}
-.header {
-    background-color: #aaaaaa;
-}
-.explanation a{
-    cursor: pointer;
-}

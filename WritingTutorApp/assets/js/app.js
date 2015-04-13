@@ -38,7 +38,7 @@ $(document).ready(function(){
             console.log(i);
             $.get('../ATDWeb/request.php', {getEssays: 2, user_id: userID, basis: i}, function (data) {
                 $.each(data, function (key, value) {
-                    str += '<li><a onclick="showEssay(' + value[0] + ')">' + value[1] + '</a></li>';
+                    str += '<li><a onclick="showEssay(' + value[0] + ',this)">' + value[1] + '<img src="assets/img/482.GIF"/></a></li>';
                 });
                 console.log("MUT?"+t);
                 //var title = ["y","m","o"];
@@ -54,7 +54,7 @@ $(document).ready(function(){
             console.log(data);
             var str = "";
             $.each(data,function(key,value){
-                str += '<li><a onclick="showEssay('+value[0]+')">'+value[1]+'</a></li>';
+                str += '<li><a onclick="showEssay('+value[0]+',this)">'+value[1]+'<img src="assets/img/482.GIF"/></a></li>';
             });
             $("#essayList_Section").find(".essayList").html(str);
         },"json");
@@ -106,10 +106,14 @@ $(document).ready(function(){
         checkEssayBody = input.val();
         console.log(checkEssayBody);
         var essayTitle = $('#title').val();
-
+        if(essayTitle==""){
+            tMCE.windowManager.alert("Please add a title to your essay.");
+            return;
+        }
+        tMCE.setProgressState(1);
         console.log(encodeURI(checkEssayBody));
         $.get('../ATDWeb/request.php',{userid:userID,saveEssay:2,essay:checkEssayBody,title:essayTitle},function(data){
-
+            tMCE.setProgressState(0);
             tMCE.windowManager.alert("Saved");
 
         });
@@ -208,7 +212,9 @@ function highlight(caller){
 
 }
 
-function showEssay(esID){
+function showEssay(esID,caller){
+    var spinner = $(caller).find('img');
+    spinner.show();
     var oldVal;
     function paraNext(newVal){
         var res;
@@ -231,7 +237,12 @@ function showEssay(esID){
             var paragraphID = sentenceData[4];
             console.log(comment);
 
+            if(paraNext(paragraphID)){
+                str+="<br/> ";
+                inStr +="%0A ";
+            }
             inStr +=sentence;
+
             //console.log("SI:"+sentence_id[key]);
             str+= "<span class='sentence'  onclick='highlight(this)'> "+ sentence +
             "<span data-quality='"+quality+"' data-comment='"+ comment +"' data-sID='"+ sentence_id +
@@ -241,14 +252,13 @@ function showEssay(esID){
             "</span>" +
             "</span>";
 
-            if(paraNext(paragraphID)){
-                str+="<br/>";
-                inStr +="\n";
-            }
 
+            spinner.hide();
         });
         $('#outputArea').html(str);
         $('#inputArea').html(inStr);
+        console.log(inStr);
+        tinymce.activeEditor.setContent(decodeURI(inStr), {format: 'raw'});
     },"json");
 
 }
