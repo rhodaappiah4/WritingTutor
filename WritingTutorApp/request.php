@@ -8,8 +8,13 @@ if (isset($_REQUEST["analyze"])) {
     $str = "";
     $str = $_REQUEST["analyze"];
     $str = urlencode($str);
+<<<<<<< Updated upstream
 //    $url = "http://localhost:8080/?sentence=" . $str; //calls python
 //    $contents = file_get_contents($url);
+=======
+    $url = "http://localhost:8080/?sentence=" . $str; //calls python
+    $contents = get_url_contents($url);
+>>>>>>> Stashed changes
 
 
     //$url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
