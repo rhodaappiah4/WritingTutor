@@ -167,6 +167,7 @@ editor.addButton('review', {
         editor.setProgressState(1);
         removeWords();
         Request_XHR('../ATDWeb/request.php',editor.getContent(),function(xmlString) {
+            xmlString = xmlString.replace(/\"$/,"");
             console.log(xmlString);
             xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
 
