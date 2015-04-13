@@ -27,6 +27,8 @@ jdbcURL=jdbc:mysql://localhost:3306/writingTutor
 # text, getString() = 9;      --> string
 # time, getTime() = 10;       --> date
 
+INT=5
+
 # other options
 CREATE_DOUBLE=DOUBLE
 CREATE_STRING=TEXT

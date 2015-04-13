@@ -57,9 +57,8 @@ class GetHandler(BaseHTTPRequestHandler):
                             paragraph_count=paragraph_count+1 
                             paragraph_id = cur.lastrowid
                             print("Parid:"+str(paragraph_id))
-                            newP_count=newP_count+1 
-                        
-                      
+                            newP_count=newP_count+1
+							
                         taglist = [] 
                         sent = i
                         tokenized = nltk.word_tokenize(sent) 

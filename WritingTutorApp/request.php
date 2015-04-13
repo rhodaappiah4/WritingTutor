@@ -4,17 +4,18 @@ require_once "databaseFunctions.php";
 $dataFunctions = new databaseFunctions();
 
 if (isset($_REQUEST["analyze"])) {
-
+    $contents = "";
     $str = "";
-    $str = $_REQUEST["inputArea"];
+    $str = $_REQUEST["analyze"];
     $str = urlencode($str);
-    $url = "http://localhost:8080/?sentence=" . $str; //calls python
-    $contents = file_get_contents($url);
+//    $url = "http://localhost:8080/?sentence=" . $str; //calls python
+//    $contents = file_get_contents($url);
 
 
-    $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
+    //$url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
+    $url = 'http://www.polishmywriting.com/proxy.php?url=/checkDocument=' . $str; //calls ATD TODO: add atd key
     //$contents .= '|break|' . file_get_contents($url);
-    $contents .= file_get_contents($url);
+    $contents .= get_url_contents($url);
     var_dump($contents);
 
 }elseif(isset($_REQUEST["explain"])) {
@@ -58,7 +59,7 @@ if (isset($_REQUEST["analyze"])) {
 }elseif(isset($_REQUEST['test'])) {
 
 
-    print_r('<results>
+    print_r('some text here <results>
   <error>
     <string>mamsd</string>
     <description>Spelling</description>
