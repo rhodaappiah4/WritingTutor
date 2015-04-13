@@ -8,24 +8,13 @@ if (isset($_REQUEST["analyze"])) {
     $str = "";
     $str = $_REQUEST["analyze"];
     $str = urlencode($str);
-<<<<<<< HEAD
-    $url = "http://localhost:8080/?sentence=" . $str; //calls python
-    $contents = get_url_contents($url);
-=======
->>>>>>> origin/master
-
     $url = "http://localhost:8080/?sentence=" . $str; //calls python
     $contents .= get_url_contents($url);
     $url = "http://localhost:8008/parserver/parseHandler?analyze=" . $str; //calls python
     $contents .= get_url_contents($url);
 
-<<<<<<< HEAD
 
     $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
-//    $url = 'http://www.polishmywriting.com/proxy.php?url=/checkDocument=' . $str; //calls ATD TODO: add atd key
-=======
-    $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
->>>>>>> origin/master
     //$contents .= '|break|' . file_get_contents($url);
     $contents .= get_url_contents($url);
     var_dump($contents);
