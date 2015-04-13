@@ -94,7 +94,7 @@ $(document).ready(function(){
                 alert('Saved');
             });
         }else{
-            alert('Please rate the setence.\n Click the like or dislike buttons above the comment box');
+            alert('Please rate the sentence.\n Click the like or dislike buttons above the comment box');
         }
     });
 
@@ -106,7 +106,9 @@ $(document).ready(function(){
         checkEssayBody = input.val();
         console.log(checkEssayBody);
         var essayTitle = $('#title').val();
-
+        if (essayTitle == String.Empty){
+            alert("Please add your essay title");
+        }
         console.log(encodeURI(checkEssayBody));
         $.get('../ATDWeb/request.php',{userid:userID,saveEssay:2,essay:checkEssayBody,title:essayTitle},function(data){
 

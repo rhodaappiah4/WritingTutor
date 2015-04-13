@@ -73,16 +73,41 @@ class GetHandler(BaseHTTPRequestHandler):
                             taglist.append(tag)
                             count=count+1
                             # counts number of words in sentence
-                            numberOfWords=len(tagged) 
+                            numberOfWords=len(tagged)
+                            
+
                         """
                         query=("INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) " +
                             "VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) " + 
                             "else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
                         """
+
                         print(query) 
                         cur.execute(query)
                         connect.commit()
                         sentence_count=sentence_count+1
+
+                        # if numberOfWords > 50:
+                        #     query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"Sentence is too long. Vary your essay with the different sentence structures. For example you can use simple sentences to catch the reader's attention, compound sentences to join two related ideas, and complex sentences if ...")
+                    
+                        #     print(query) 
+                        #     cur.execute(query)
+                        #     connect.commit()
+                        #     sentence_count=sentence_count+1
+                        # else if numberOfWords < 3:
+                        #     query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"Sentence is too short. Vary your essay with the different sentence structures. Add more meaning to your sentence.")
+                    
+                        #     print(query) 
+                        #     cur.execute(query)
+                        #     connect.commit()
+                        #     sentence_count=sentence_count+1
+                        # else:
+                        #     query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"")
+                    
+                        #     print(query) 
+                        #     cur.execute(query)
+                        #     connect.commit()
+                        #     sentence_count=sentence_count+1
                             
             cur.close()
             connect.close()

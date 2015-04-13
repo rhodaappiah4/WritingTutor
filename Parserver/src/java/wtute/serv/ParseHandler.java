@@ -5,8 +5,11 @@
  */
 package wtute.serv;
 
+import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
+import edu.stanford.nlp.trees.Tree;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,6 +47,18 @@ public class ParseHandler extends HttpServlet {
              try (PrintWriter out = response.getWriter()) {
                 out.println(ParamMap.get("hi")[0]);
             }
+        }if (ParamMap.containsKey("extract")){
+            EssayParser ep = new EssayParser();
+            try (PrintWriter out = response.getWriter()) {
+                out.println(ep.extractTag(ParamMap.get("extract")[0]));
+            }
+//            LexicalizedParser parser = LexicalizedParser.loadModel();
+//            Tree x = parser.apply("Who owns club barcelona?");
+//            ArrayList<Tree> outs = extract(x);
+//            for(int i=0;i<outs.size();i++)
+//            {
+//                System.out.println("tree #"+i+": "+outs.get(i));
+//            }
         }
 
      

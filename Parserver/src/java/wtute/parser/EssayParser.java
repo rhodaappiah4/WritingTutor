@@ -6,6 +6,7 @@
 package wtute.parser;
 
 import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.Sentence;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.process.Tokenizer;
@@ -14,8 +15,11 @@ import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
+import edu.stanford.nlp.trees.tregex.TregexMatcher;
+import edu.stanford.nlp.trees.tregex.TregexPattern;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,7 +83,52 @@ public class EssayParser {
         return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield()+"\n\n";
     }
     
+//    Tree x = lp.apply("Christopher Manning owns club barcelona?");
+//    TregexPattern NPpattern = TregexPattern.compile("@NP !<< @NP");
+//    TregexMatcher matcher = NPpattern.matcher(x);
+//    while (matcher.findNextMatchingNode()) {
+//    Tree match = matcher.getMatch();
+//    System.out.println(Sentence.listToString(match.yield()));
+//        return null;
+//    }
     
+    
+//    public static ArrayList<Tree> extract(Tree t) 
+//{
+//    ArrayList<Tree> wanted = new ArrayList<Tree>();
+//   if (t.label().value().equals("S") )
+//    {
+//       wanted.add(t);
+//        for (Tree child : t.children())
+//        {
+//            ArrayList<Tree> temp = new ArrayList<Tree>();
+//            temp=extract(child);
+//            if(temp.size()>0)
+//            {
+//                int o=-1;
+//                o=wanted.indexOf(t);
+//                if(o!=-1)
+//                    wanted.remove(o);
+//            }
+//            wanted.addAll(temp);
+//        }
+//    }
+//
+//    else
+//        for (Tree child : t.children())
+//            wanted.addAll(extract(child));
+//    return wanted;
+//}
 
- 
+  
+    public static String extractTag(String s){
+        Tree t = null;
+        Tree comma_splice = null;
+        for (Tree subtree : t) { 
+            if (subtree.label().value().equals("S")) {
+            comma_splice.add(subtree);
+            }
+        }
+        return "Good";
+    }
 }
