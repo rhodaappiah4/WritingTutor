@@ -22,7 +22,7 @@ class GetHandler(BaseHTTPRequestHandler):
         def saveToDatabase(user_id,title,description,body):
             connect = pymysql.connect(host="localhost",port=3306,user="root",password="",db="writingTutor")
             cur = connect.cursor()
-            #Insert title and essay data into essay table
+            #Insert title and the essay discription into the essay table
             query='INSERT INTO `essays`(essay_name,essay_description) VALUES ("{!s}","{!s}")'.format(title,description)
             # print(query) 
             cur.execute(query)
@@ -50,7 +50,7 @@ class GetHandler(BaseHTTPRequestHandler):
                         print "CURR:" +i
                         if (newline or newP_count == 1): 
                             query=('INSERT INTO `paragraphs`(fk_essay_id,paragraph_number,paragraph_comment) '+ 
-                            'VALUES ("{!s}","{!s}","{!s}")'.format(essay_id,paragraph_count,"Lovely paragraph"))
+                            'VALUES ("{!s}","{!s}","{!s}")'.format(essay_id,paragraph_count,"None"))
                             print(query) 
                             cur.execute(query)
                             connect.commit()
@@ -59,11 +59,8 @@ class GetHandler(BaseHTTPRequestHandler):
                             print("Parid:"+str(paragraph_id))
                             newP_count=newP_count+1 
                         
-                        print("count "+ str(newP_count))
-                        print("newl "+str(newline))
-
-                        
-                        taglist = [] # very unlike you not to use a descriptive variable
+                      
+                        taglist = [] 
                         sent = i
                         tokenized = nltk.word_tokenize(sent) 
                         tagged = nltk.pos_tag(tokenized)
@@ -79,6 +76,28 @@ class GetHandler(BaseHTTPRequestHandler):
                         cur.execute(query)
                         connect.commit()
                         sentence_count=sentence_count+1
+
+                        # if numberOfWords > 50:
+                        #     query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"Sentence is too long. Vary your essay with the different sentence structures. For example you can use simple sentences to catch the reader's attention, compound sentences to join two related ideas, and complex sentences if ...")
+                    
+                        #     print(query) 
+                        #     cur.execute(query)
+                        #     connect.commit()
+                        #     sentence_count=sentence_count+1
+                        # else if numberOfWords < 3:
+                        #     query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"Sentence is too short. Vary your essay with the different sentence structures. Add more meaning to your sentence.")
+                    
+                        #     print(query) 
+                        #     cur.execute(query)
+                        #     connect.commit()
+                        #     sentence_count=sentence_count+1
+                        # else:
+                        #     query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and sentence_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"")
+                    
+                        #     print(query) 
+                        #     cur.execute(query)
+                        #     connect.commit()
+                        #     sentence_count=sentence_count+1
                             
             cur.close()
             connect.close()
@@ -87,8 +106,8 @@ class GetHandler(BaseHTTPRequestHandler):
             connect = pymysql.connect(host="localhost",port=3306,user="root",password="",db="writingTutor")
             cur = connect.cursor()
             """
-            query=("SELECT group_concat(sentence SEPARATOR '|'),group_concat(sentence_id SEPARATOR '|'),group_concat(sentence_comment SEPARATOR '|') " +
-                ",group_concat(sentence_quality SEPARATOR '|')"+
+            query=("SELECT group_concat(sentence SEPARATOR '|'),group_concat(sentence_id SEPARATOR '|') " +
+                ",group_concat(sentence_comment SEPARATOR '|'),group_concat(sentence_quality SEPARATOR '|') "+
                 "FROM sentences,paragraphs,essays WHERE paragraph_id=fk_paragraph_id AND essay_id=fk_essay_id AND essay_id={!s} " +
                 "GROUP BY paragraph_id ORDER BY (sentence_number);").format(essay)
             """
