@@ -52,14 +52,14 @@ public class EssayParser {
         gsf = tlp.grammaticalStructureFactory();
     }
 
-    public String parseEssay(String essay) { 
+    public String parseEssay(String essay) {
         String parsedOut = "";
         Reader reader = new StringReader(essay);
         DocumentPreprocessor dp = new DocumentPreprocessor(reader);
         for (List<HasWord> sentence : dp) {
-            Tree parseTree = lp.parse(sentence); 
+            Tree parseTree = lp.parse(sentence);
             System.out.print(parseTree);
-            parsedOut += parse(parseTree); 
+            parsedOut += parse(parseTree);
         }
         return parsedOut;
     }
@@ -68,67 +68,45 @@ public class EssayParser {
         String parsedOut = "";
         for (String sentence : sentences) {
             Tokenizer<? extends HasWord> toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(sentence));
-            List<? extends HasWord> essayTok = toke.tokenize(); 
-            Tree parseTree = lp.parse(essayTok); 
+            List<? extends HasWord> essayTok = toke.tokenize();
+            Tree parseTree = lp.parse(essayTok);
             parsedOut += parse(parseTree);
         }
         return parsedOut;
     }
 
-    private String parse(Tree toParse) { 
+    private String parse(Tree toParse) {
         GrammaticalStructure gs = gsf.newGrammaticalStructure(toParse);
         List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
         toParse.pennPrint();
         System.out.println(tdl);
-        return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield()+"\n\n";
+        return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield() + "\n\n";
     }
-    
-//    Tree x = lp.apply("Christopher Manning owns club barcelona?");
-//    TregexPattern NPpattern = TregexPattern.compile("@NP !<< @NP");
-//    TregexMatcher matcher = NPpattern.matcher(x);
-//    while (matcher.findNextMatchingNode()) {
-//    Tree match = matcher.getMatch();
-//    System.out.println(Sentence.listToString(match.yield()));
-//        return null;
-//    }
-    
-    
-//    public static ArrayList<Tree> extract(Tree t) 
-//{
-//    ArrayList<Tree> wanted = new ArrayList<Tree>();
-//   if (t.label().value().equals("S") )
-//    {
-//       wanted.add(t);
-//        for (Tree child : t.children())
-//        {
-//            ArrayList<Tree> temp = new ArrayList<Tree>();
-//            temp=extract(child);
-//            if(temp.size()>0)
-//            {
-//                int o=-1;
-//                o=wanted.indexOf(t);
-//                if(o!=-1)
-//                    wanted.remove(o);
-//            }
-//            wanted.addAll(temp);
-//        }
-//    }
-//
-//    else
-//        for (Tree child : t.children())
-//            wanted.addAll(extract(child));
-//    return wanted;
-//}
 
-  
-    public static String extractTag(String s){
-        Tree t = null;
+    public String extractTag(String sentence) {
+        Tree parseTree = lp.parse(sentence);
         Tree comma_splice = null;
-        for (Tree subtree : t) { 
-            if (subtree.label().value().equals("S")) {
-            comma_splice.add(subtree);
+        String res="<results></results>";
+        System.out.println(parseTree);
+        Tree[] treeArr = parseTree.children()[0].children();
+        for (Tree substree : treeArr) {
+            System.out.println(substree.label());
+            if(substree.label().toString().equals(",")){
+                res = "<results>\n"
+                + "  <error>\n"
+                + "    <string>"+sentence+"</string>\n"
+                + "    <description>Comma splice: Use a conjunction after the comma</description>\n"
+                + "    <precontext></precontext>\n"
+                + "    <suggestions>\n"
+                + "        <option>or, and, but, so</option>\n" 
+                + "    </suggestions>\n"
+                + "    <type>grammar</type>\n"
+                + "\n"
+                + "  </error>\n"
+                + "</results>";
             }
         }
-        return "Good";
+         
+        return res;
     }
 }

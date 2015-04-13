@@ -47,10 +47,11 @@ public class ParseHandler extends HttpServlet {
              try (PrintWriter out = response.getWriter()) {
                 out.println(ParamMap.get("hi")[0]);
             }
-        }if (ParamMap.containsKey("extract")){
+        }
+        if (ParamMap.containsKey("analyze")){
             EssayParser ep = new EssayParser();
             try (PrintWriter out = response.getWriter()) {
-                out.println(ep.extractTag(ParamMap.get("extract")[0]));
+                out.println(ep.extractTag(ParamMap.get("analyze")[0]));
             }
 //            LexicalizedParser parser = LexicalizedParser.loadModel();
 //            Tree x = parser.apply("Who owns club barcelona?");
