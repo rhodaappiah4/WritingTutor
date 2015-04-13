@@ -239,7 +239,7 @@ function showEssay(esID,caller){
 
             if(paraNext(paragraphID)){
                 str+="<br/> ";
-                inStr +="%0A ";
+                inStr +="<br/> ";
             }
             inStr +=sentence;
 
