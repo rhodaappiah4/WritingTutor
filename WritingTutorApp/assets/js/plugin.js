@@ -77,13 +77,15 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
             //console.debug(findErrorData(errorData['word'],errorData['pre']));
             if (errorData["pre"] == "") {
                 //console.log("Pre doint it: '" + errWordRgxVal + "'");
-                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
-                console.log(errWordRgxVal);
+                //errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
+                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + '))';
+
                 regexNErrorDataList.push({regex:new RegExp('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
-                //regexNErrorDataList.push(new RegExp('(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'g'));
+                console.log('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))');
             } else {
-                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
+               // errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
+                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + '))';
                 console.log(errWordRgxVal);
                 regexNErrorDataList.push({regex: new RegExp(errWordRgxVal, 'g'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
@@ -169,7 +171,7 @@ editor.addButton('review', {
         Request_XHR('../ATDWeb/request.php',editor.getContent({format:"raw"}),function(xmlString) {
             xmlString = xmlString.replace(/\"$/g,"").trim();
             console.log(xmlString);
-            xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')));
+            xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
 
             var grammarErrors    = [];
             var spellingErrors   = [];

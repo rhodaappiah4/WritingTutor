@@ -21,6 +21,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import wtute.engine.XMLCreator;
 
 /**
  *
@@ -84,6 +85,7 @@ public class EssayParser {
     }
 
     public String extractTag(String sentence) {
+        XMLCreator xmlc = new XMLCreator();
         Tree parseTree = lp.parse(sentence);
         Tree comma_splice = null;
         String res="<results></results>";
@@ -92,7 +94,11 @@ public class EssayParser {
         for (Tree substree : treeArr) {
             System.out.println(substree.label());
             if(substree.label().toString().equals(",")){
-                
+                xmlc.addError(sentence, 
+                        "Comma splice; use a conjunction after the comma "
+                                + "or a semi-colon/full-stop in place of the comma", 
+                        null, new String[]{"or","and","but","so",";","."}, "grammar");
+                res = xmlc.getErrorXML();
             }
         }
          

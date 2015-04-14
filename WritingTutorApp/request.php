@@ -14,6 +14,7 @@ if (isset($_REQUEST["analyze"])) {
     $url = "http://localhost:8008/parserver/parseHandler?analyze=" . $str; //calls python
     $contents .= get_url_contents($url);
     $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
+    $url = 'http://service.afterthedeadline.com/checkDocument?data=' . $str; //calls ATD TODO: add atd key
     $contents .= get_url_contents($url);
 
     $contents = str_replace('<results>',"",$contents);
@@ -86,6 +87,20 @@ if (isset($_REQUEST["analyze"])) {
     <type>grammar</type>
     <url>http://service.afterthedeadline.com/info.slp?text=i&amp;tags=PRP&amp;engine=1</url>
 
+  </error>
+  <error>
+    <string>The sun is high, put on some sunblock.</string>
+    <description>Comma splice; use a conjunction after the comma or a semi-colon/full-stop in place of the comma</description>
+    <precontext></precontext>
+    <suggestions>
+        <option>or</option>
+        <option>and</option>
+        <option>but</option>
+        <option>so</option>
+        <option>;</option>
+        <option>.</option>
+    </suggestions>
+    <type>grammar</type>
   </error>
 </results>');
 }
