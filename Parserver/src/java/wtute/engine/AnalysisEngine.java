@@ -8,6 +8,8 @@ package wtute.engine;
 import java.sql.Connection;
 import weka.core.Instances;
 import weka.experiment.InstanceQuery;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.*;
 
 /**
  *
@@ -35,8 +37,16 @@ public class AnalysisEngine {
         query.setPassword("");
         query.setQuery("select tags,sentence_quality from sentences");
         // You can declare that your data set is sparse
-        // query.setSparseData(true);
-        Instances data = query.retrieveInstances();
+         query.setSparseData(true);
+        Instances data = query.retrieveInstances(); 
+//        if (data.classIndex() == -1){
+//            data.setClassIndex(data.numAttributes() - 1);
+//        }
+        StringToWordVector nts = new StringToWordVector();
+        nts.setInputFormat(data); 
+        Instances newData = Filter.useFilter(data, nts); 
+        
+        System.out.println(newData);
         System.out.println(data);
     }
     public static void main(String[] args) throws Exception {

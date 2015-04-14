@@ -77,13 +77,13 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
             //console.debug(findErrorData(errorData['word'],errorData['pre']));
             if (errorData["pre"] == "") {
                 //console.log("Pre doint it: '" + errWordRgxVal + "'");
-                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+'^$]*))';
+                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
                 console.log(errWordRgxVal);
                 regexNErrorDataList.push({regex:new RegExp('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
                 //regexNErrorDataList.push(new RegExp('(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'g'));
             } else {
-                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+'^$]*))';
+                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
                 console.log(errWordRgxVal);
                 regexNErrorDataList.push({regex: new RegExp(errWordRgxVal, 'g'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
