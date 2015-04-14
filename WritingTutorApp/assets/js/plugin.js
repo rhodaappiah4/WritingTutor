@@ -77,14 +77,14 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
             //console.debug(findErrorData(errorData['word'],errorData['pre']));
             if (errorData["pre"] == "") {
                 //console.log("Pre doint it: '" + errWordRgxVal + "'");
-                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+']*))';
-                //console.log(errWordRgxVal);
+                errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+'^$]*))';
+                console.log(errWordRgxVal);
                 regexNErrorDataList.push({regex:new RegExp('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
                 //regexNErrorDataList.push(new RegExp('(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'g'));
             } else {
-                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+']))';
-                // console.log(errWordRgxVal);/
+                errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+'^$]*))';
+                console.log(errWordRgxVal);
                 regexNErrorDataList.push({regex: new RegExp(errWordRgxVal, 'g'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
             }
@@ -108,7 +108,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
                     var newNode;
                     //console.log(node);
                     nValue = dom.encode(nValue);
-                   // if (r1.test(nValue)) {
+                    //if (r1.test(nValue)) {
                         each(regexNErrorDataList, function (regex) {
                             var errdata = regex.err;
                             regex = regex.regex;
@@ -167,7 +167,7 @@ editor.addButton('review', {
         editor.setProgressState(1);
         removeWords();
         Request_XHR('../ATDWeb/request.php',editor.getContent({format:"raw"}),function(xmlString) {
-            xmlString = xmlString.replace(/\"$/g,"");
+            xmlString = xmlString.replace(/\"$/g,"").trim();
             console.log(xmlString);
             xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
 
@@ -189,7 +189,6 @@ editor.addButton('review', {
                 errorDataSet["context"]     = errorContext;
                 errorDataSet["string"]      = errorString;
                 errorDataSet["type"]        = errorType;
-                editor.setProgressState(0);
 
                 if ($(value).find('suggestions') != undefined){
                     var suggestions =  $(value).find('suggestions').find('option');
@@ -219,7 +218,7 @@ editor.addButton('review', {
                     spellingErrors.push({ word: errorString, pre: errorContext });
 
             });
-
+            editor.setProgressState(0);
             markWords(grammarErrors,"error-grammar");
             markWords(spellingErrors,"error-spelling");
             markWords(enrichment,"error-improvement");

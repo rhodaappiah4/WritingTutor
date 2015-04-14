@@ -92,18 +92,7 @@ public class EssayParser {
         for (Tree substree : treeArr) {
             System.out.println(substree.label());
             if(substree.label().toString().equals(",")){
-                res = "<results>\n"
-                + "  <error>\n"
-                + "    <string>"+sentence+"</string>\n"
-                + "    <description>Comma splice: Use a conjunction after the comma</description>\n"
-                + "    <precontext></precontext>\n"
-                + "    <suggestions>\n"
-                + "        <option>or, and, but, so</option>\n" 
-                + "    </suggestions>\n"
-                + "    <type>grammar</type>\n"
-                + "\n"
-                + "  </error>\n"
-                + "</results>";
+                
             }
         }
          

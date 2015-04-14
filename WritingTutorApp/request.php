@@ -13,16 +13,17 @@ if (isset($_REQUEST["analyze"])) {
     $contents .= get_url_contents($url);
     $url = "http://localhost:8008/parserver/parseHandler?analyze=" . $str; //calls python
     $contents .= get_url_contents($url);
-
     $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
-    //$contents .= '|break|' . file_get_contents($url);
     $contents .= get_url_contents($url);
-    var_dump($contents);
+
+    $contents = str_replace('<results>',"",$contents);
+    $contents = str_replace('</results>',"",$contents);
+    print_r('<results>'.$contents.'</results>');
 
 }elseif(isset($_REQUEST["explain"])) {
     $url = $_REQUEST["explain"]; //calls ATD external link
     $contents .= file_get_contents($url);
-    var_dump($contents);
+    print_r($contents);
 }elseif(isset($_REQUEST['selectEssay'])){
     $str = "";
     $str = $_REQUEST["essayID"];
