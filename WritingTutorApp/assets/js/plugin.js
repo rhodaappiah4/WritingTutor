@@ -169,7 +169,7 @@ editor.addButton('review', {
         Request_XHR('../ATDWeb/request.php',editor.getContent({format:"raw"}),function(xmlString) {
             xmlString = xmlString.replace(/\"$/g,"").trim();
             console.log(xmlString);
-            xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
+            xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')));
 
             var grammarErrors    = [];
             var spellingErrors   = [];
