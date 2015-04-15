@@ -34,7 +34,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
 
         var dom = editor.dom, se = editor.selection, bookmark = se.getBookmark();
         dom.remove(dom.select('div'));
-        dom.remove(dom.select('p'),1);
+        //<span([^>])*>|<\/span([^>])*>
         each(dom.select('span').reverse(), function(n)
         {
 
@@ -47,9 +47,10 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
             }
         });
         console.log(dom.getRoot());
+        var refreshedHTML = dom.getRoot().innerHTML.replace(/<span([^>])*>|<\/span([^>])*>/g,"");
         /* force a rebuild of the DOM... even though the right elements are stripped, the DOM is still organized
          as if the span were there and this breaks my code */
-        dom.setHTML(dom.getRoot(), dom.getRoot().innerHTML);
+        dom.setHTML(dom.getRoot(), refreshedHTML);
 
         se.moveToBookmark(bookmark);
         console.debug("/REM");
@@ -72,25 +73,15 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
         each(errors, function(errorData)
         {
             var errWordRgxVal = errorData["word"].replace(/\s+/g, '[' + regexEsc + ']');
-            //console.log(errorData);
-            //console.log(errWordRgxVal);
-            //console.debug(findErrorData(errorData['word'],errorData['pre']));
             if (errorData["pre"] == "") {
-                //console.log("Pre doint it: '" + errWordRgxVal + "'");
-                //errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
                 errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + '))';
-
                 regexNErrorDataList.push({regex:new RegExp('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
-                console.log('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))');
             } else {
-               // errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + ')(['+regexEsc+']*|^$))';
                 errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + '))';
-                console.log(errWordRgxVal);
                 regexNErrorDataList.push({regex: new RegExp(errWordRgxVal, 'g'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
             }
-
             w += (w ? '|' : '') + errWordRgxVal;
         });
         r1 = new RegExp(w);
@@ -107,17 +98,18 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
             each(nodeList,function(node){
                 if(node.nodeType == 3) {
                     var nValue = node.nodeValue;
+                    nValue = nValue.trim();
                     var newNode;
-                    //console.log(node);
+                   // console.log(node);
                     nValue = dom.encode(nValue);
                     //if (r1.test(nValue)) {
                         each(regexNErrorDataList, function (regex) {
                             var errdata = regex.err;
                             regex = regex.regex;
 
-                            //console.log("B4:" + nValue);
+                            console.log("B4:" + nValue);
                             //console.log('RGX:');
-                            //console.log(regex);
+                            console.log(regex);
                            // nValue = nValue.replace(regex, "$1<span pre='$1' class='" + errortype + "'>$2</span>$3 ");
                             nValue = nValue.replace(regex, "$1<span pre='$1' class='" + errortype + "'>"+
                             '<div class="feedback">'+
@@ -139,7 +131,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
                             '</div>'+
                             '</div>' +
                             //
-                            '$2</span>$3 ');
+                            '$2</span> ');
                             //console.log("@R:" + nValue);
                         });
                         newNode = dom.create('span', null, nValue);
@@ -148,11 +140,10 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
                 //console.debug(newNode);
                 if (newNode != undefined){
                     dom.replace(newNode, node);
+
                 }
-                dom.remove('.mceItemHidden');
+
             });
-
-
     }
 
     //console.log(newContent);

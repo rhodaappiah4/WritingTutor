@@ -51,24 +51,51 @@ if(isset($_REQUEST['register'])){
     <link rel="stylesheet" href="assets/css/style.css"><link>
 </head>
 <body>
+<div id="userID_Holder" style="display: none"><?php echo $_SESSION['user_id'];?></div>
+<div id="userType_Holder" style="display: none"><?php echo $_SESSION['fk_user_type_id'];?></div>
+
+<nav class="top-bar fixed" data-topbar role="navigation">
+    <section class="top-bar-section">
+
+        <ul class="left">
+            <li><a href="index.php">Home</a></li>
+        </ul>
+        <ul class="right">
+            <li class="has-dropdown">
+                <a href="#">Hello, <?php echo @$_SESSION['username']!= null? !$_SESSION['username'] : "Who are you?"; ?></a>
+                <ul class="dropdown">
+                    <li class="active" ><a id="logout" >Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</nav>
+
 <form action="registration.php" method="GET">
-    <div>First Name:<input type="text" size=12 name="firstname"></div>
-    <div>Last Name:<input type="text" name="lastname"></div>
-    <div>Username:<input type="text" name="username"></div>
-    <div>Password:<input type="password" name="user_password"></div>
-    <?php
+    <div class="row">
+        <div class="columns medium-6 small-12"><label>First Name:<input type="text" size=12 name="firstname"></label></div>
+        <div class="columns medium-6 small-12"><label>Last Name:<input type="text" name="lastname"></label></div>
+        <div class="columns small-12"><label>Username:<input type="text" name="username"></label></div>
+        <div class="columns small-12"><label>Password:<input type="password" name="user_password"></label></div>
+        <?php
         $d->get_user_types();
         $row=$d->fetch();
-    ?>
-    <select name="type">
-        <?php
-        while($row){
-            echo '<option value='.$row["user_type_id"].'>'.$row["user_type"].'</option>';
-            $row=$d->fetch();
-        }
         ?>
-    </select>
-    <input type="submit" name="register" value="Register">
+        <div class="columns small-12">
+            <label>User type:
+            <select name="type">
+                <?php
+                while($row){
+                    echo '<option value='.$row["user_type_id"].'>'.$row["user_type"].'</option>';
+                    $row=$d->fetch();
+                }
+                ?>
+                </label>
+            </select>
+            <input class="button tiny" type="submit" name="register" value="Register">
+        </div>
+
+    </div>
 </form>
 
 

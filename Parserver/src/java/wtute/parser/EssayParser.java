@@ -84,24 +84,31 @@ public class EssayParser {
         return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield() + "\n\n";
     }
 
-    public String extractTag(String sentence) {
+    public String extractTag(String essay) {
         XMLCreator xmlc = new XMLCreator();
-        Tree parseTree = lp.parse(sentence);
-        Tree comma_splice = null;
-        String res="<results></results>";
-        System.out.println(parseTree);
-        Tree[] treeArr = parseTree.children()[0].children();
-        for (Tree substree : treeArr) {
-            System.out.println(substree.label());
-            if(substree.label().toString().equals(",")){
-                xmlc.addError(sentence, 
-                        "Comma splice; use a conjunction after the comma "
-                                + "or a semi-colon/full-stop in place of the comma", 
-                        null, new String[]{"or","and","but","so",";","."}, "grammar");
-                res = xmlc.getErrorXML();
+        Reader reader = new StringReader(essay);
+        String res = "<results></results>";
+        DocumentPreprocessor dp = new DocumentPreprocessor(reader);
+        for (List<HasWord> sentence : dp) {
+            Tree parseTree = lp.parse(sentence); 
+            System.err.println(parseTree);
+            Tree[] treeArr = parseTree.children()[0].children();
+            for (Tree substree : treeArr) {
+                List<Tree> siblingList = substree.siblings(parseTree);
+                System.out.println(siblingList);
+                System.out.println(Sentence.listToString(siblingList.get(0).lastChild().yield()));
+                System.out.println(Sentence.listToString(siblingList.get(1).firstChild().yield()));
+                System.out.println();
+                if (substree.label().toString().equals(",")) {
+                    xmlc.addError(Sentence.listToString(parseTree.yield()).toString(),
+                            "Comma splice; use a conjunction after the comma "
+                            + "or a semi-colon/full-stop in place of the comma",
+                            null, new String[]{"or", "and", "but", "so", ";", "."}, "grammar");
+                    res = xmlc.getErrorXML();
+                }
             }
         }
-         
+
         return res;
     }
 }

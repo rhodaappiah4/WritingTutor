@@ -6,6 +6,7 @@
 package wtute.engine;
 
 import java.sql.Connection;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.experiment.InstanceQuery;
 import weka.filters.Filter;
@@ -42,6 +43,8 @@ public class AnalysisEngine {
 //        if (data.classIndex() == -1){
 //            data.setClassIndex(data.numAttributes() - 1);
 //        }
+       
+       
         StringToWordVector nts = new StringToWordVector();
         nts.setInputFormat(data); 
         Instances newData = Filter.useFilter(data, nts); 
