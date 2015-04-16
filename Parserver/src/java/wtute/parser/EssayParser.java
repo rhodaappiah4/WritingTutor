@@ -86,6 +86,7 @@ public class EssayParser {
 
     public String extractTag(String essay) {
         XMLCreator xmlc = new XMLCreator();
+<<<<<<< Updated upstream
         Reader reader = new StringReader(essay);
         String res = "<results></results>";
         DocumentPreprocessor dp = new DocumentPreprocessor(reader);
@@ -106,6 +107,24 @@ public class EssayParser {
                             null, new String[]{"or", "and", "but", "so", ";", "."}, "grammar");
                     res = xmlc.getErrorXML();
                 }
+=======
+        Tree parseTree = lp.parse(sentence);
+        Tree comma_splice = null;
+        String res="<results></results>";
+        System.out.println(parseTree);
+        Tree[] treeArr = parseTree.children()[0].children();
+        for (Tree subtree : treeArr) {
+            System.out.println(subtree.label());
+            if(subtree.label().toString().equals("S")){
+//if (subtree.label().toString().sibling.equals(",")) {if sibling.equals("NP") if sibling.equals("VP")} 
+//else if (subtree.label().toString().equals("VP")){ if left.child.equals("VP") && right.child.equals(",") && right.child.equals("VP")} 
+//else if (subtree.label().toString().equals("S")){ if left.child.equals(",") && right.child.equals("S") && right.child.equals(",") && right.child.equals("S")}         
+                xmlc.addError(sentence, 
+                        "Comma splice: use a coordinating conjunction after the comma "
+                                + "or a semi-colon/full-stop in place of the comma", 
+                        null, new String[]{"yet","or","and","but","so",";","."}, "grammar");
+                res = xmlc.getErrorXML();
+>>>>>>> Stashed changes
             }
         }
 
