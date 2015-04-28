@@ -51,15 +51,8 @@ public class ParseHandler extends HttpServlet {
         if (ParamMap.containsKey("analyze")){
             EssayParser ep = new EssayParser();
             try (PrintWriter out = response.getWriter()) {
-                out.println(ep.extractTag(ParamMap.get("analyze")[0]));
-            }
-//            LexicalizedParser parser = LexicalizedParser.loadModel();
-//            Tree x = parser.apply("Who owns club barcelona?");
-//            ArrayList<Tree> outs = extract(x);
-//            for(int i=0;i<outs.size();i++)
-//            {
-//                System.out.println("tree #"+i+": "+outs.get(i));
-//            }
+                out.println(ep.analyze(ParamMap.get("analyze")[0]));
+            } 
         }
 
      

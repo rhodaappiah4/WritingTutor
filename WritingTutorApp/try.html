@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <input id="in" />
+    <button onclick="doit()">DO</button>
+<div id="out">
+
+</div>
+</body>
+<script>
+    var text = document.getElementById("in");
+    var out = document.getElementById("out");
+    function doit(){
+        var newVal = text.value.replace(/(?:[\\\!\#\$\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\]\^\_\{\|\}\�\”\“\"\']{1})/g,"\\$&");
+        out.innerHTML = newVal;
+    }
+
+</script>
+</html>

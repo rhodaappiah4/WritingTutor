@@ -15,12 +15,12 @@ import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
-import edu.stanford.nlp.trees.tregex.TregexMatcher;
-import edu.stanford.nlp.trees.tregex.TregexPattern;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
+import wtute.engine.TreeHelper;
 import wtute.engine.XMLCreator;
 
 /**
@@ -35,6 +35,7 @@ public class EssayParser {
     TreebankLanguagePack tlp;
     GrammaticalStructureFactory gsf;
     Iterable<List<? extends HasWord>> sentences;
+    XMLCreator xmlc;
 
     public EssayParser() {
         grammar = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
@@ -42,6 +43,7 @@ public class EssayParser {
         lp = LexicalizedParser.loadModel(grammar, options);
         tlp = lp.getOp().langpack();
         gsf = tlp.grammaticalStructureFactory();
+        xmlc = new XMLCreator();
     }
 
     public EssayParser(String serGrammarURL) {
@@ -84,31 +86,54 @@ public class EssayParser {
         return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield() + "\n\n";
     }
 
-    public String extractTag(String essay) {
-        XMLCreator xmlc = new XMLCreator();
+    public String analyze(String essay) {
         Reader reader = new StringReader(essay);
-        String res = "<results></results>";
         DocumentPreprocessor dp = new DocumentPreprocessor(reader);
         for (List<HasWord> sentence : dp) {
-            Tree parseTree = lp.parse(sentence); 
-            System.err.println(parseTree);
-            Tree[] treeArr = parseTree.children()[0].children();
-            for (Tree substree : treeArr) {
-                List<Tree> siblingList = substree.siblings(parseTree);
-                System.out.println(siblingList);
-                System.out.println(Sentence.listToString(siblingList.get(0).lastChild().yield()));
-                System.out.println(Sentence.listToString(siblingList.get(1).firstChild().yield()));
-                System.out.println();
-                if (substree.label().toString().equals(",")) {
-                    xmlc.addError(Sentence.listToString(parseTree.yield()).toString(),
-                            "Comma splice; use a conjunction after the comma "
-                            + "or a semi-colon/full-stop in place of the comma",
-                            null, new String[]{"or", "and", "but", "so", ";", "."}, "grammar");
-                    res = xmlc.getErrorXML();
+            commaSplice(sentence);
+        } 
+        return xmlc.getErrorXML();
+    }
+
+    public void commaSplice(List<HasWord> sentence) {
+         
+        Tree sentenceTree = lp.parse(sentence); 
+        Iterator<Tree> iter = sentenceTree.iterator();
+        for (Tree subTree : sentenceTree) {
+            if (subTree.label().toString().equals(",")) {
+                List<Tree> siblings = subTree.siblings(sentenceTree); 
+                if (!siblings.isEmpty()) {
+                    Tree next = TreeHelper.nextSibling(subTree, sentenceTree);
+                    Tree prev = TreeHelper.prevSibling(subTree, sentenceTree);
+                    boolean b = TreeHelper.isConjunction(next);
+                    boolean c = TreeHelper.isAdjectivalPhrase(prev);
+                    if (!b && !c) {
+                        String errorSect = Sentence.listToString(prev.lastChild().yieldWords()).trim() +", "
+                        +  Sentence.listToString(next.firstChild().yieldWords());
+                        xmlc.addError(errorSect,
+                        "Comma splice: You have used a comma to separate two individual sentences",
+                        null, new String[]{"or", "and", "but", "so", " ; ", " . "}, "grammar","Consider using a "
+                                + "conjunction after the comma, a semi-colon or a full-stop to break the sentence.");
+                    }
                 }
             }
-        }
-
-        return res;
+        } 
     }
+
+    public static void main(String[] args) {
+        EssayParser ep = new EssayParser();
+        ep.analyze("It was raining, we stayed home. It was raining, so we stayed home.\n"
+                + "The pink shirt is $20, black shirt is $18, dark pant is $15.\n"
+                + "It can help salesperson to promote up-sales and cross sales, provide better services.\n"
+                + "We hiked for three days, we were very tired.\n"
+                + "The television is too loud, the picture is fuzzy.\n"
+                + "Mary kissed Frank, then, for no apparent reason, she slapped him.\n"
+                + "John studied hard for the test, he failed it anyway.\n"
+                + "Charlie is not only handsome, he is also rich.\n"
+                + "Heavy rain fell throughout the night, by morning every major road was flooded.\n"
+                + "This has been a very dry summer, therefore, the supply of water in the reservoirs is low.\n"
+                + "This has been a very dry summer; therefore, the supply of water in the reservoirs is low.\n"
+                + "The coach was mad at his team, he told the players that they had to work harder in practice, he made them watch extra film to prepare for the next game. ");
+    }
+
 }

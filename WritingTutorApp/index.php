@@ -81,7 +81,11 @@ if($_SESSION['username']==null){
     <button class="small small-12" id="saveComm">Save comment</button>
     </div>
 </section>
+<section id="comment_student" about="" class="columns small-2">
+    <div class="card">
 
+        </div>
+    </section>
 <br><br>
 <div id="sentence"></div><br>
 <div id="nltk"></div><br>

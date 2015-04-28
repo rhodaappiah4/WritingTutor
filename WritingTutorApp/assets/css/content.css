@@ -1,7 +1,8 @@
+@import "fonts.css";
 [class*='error-']{
     position: relative;
     border-bottom:2px #ffe964 solid;
-    font-size: 14px;
+    font-size: 12px;
     min-width: 100px;
 }
 .feedback{
@@ -10,10 +11,17 @@
     position: absolute;
     display: none;
     min-width: 140px;
+    max-width: 195px;
     background-color: rgba(255,255,255,0.95);
     left: 0;
+    top: 15px;
     z-index: 90;
 
+}
+.feedback div {
+    padding: 3px;
+    font-size: 12px;
+    font-family: Roboto_Light;
 }
 [class*='error-']:hover .feedback{
     display: block;

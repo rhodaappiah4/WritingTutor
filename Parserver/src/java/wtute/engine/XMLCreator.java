@@ -18,10 +18,10 @@ public class XMLCreator {
         sb.append("<results>\n");
     }
 
-    public void addError(String error, String desc, String pre, String[] options, String type) {
+    public void addError(String errorText, String desc, String pre, String[] options, String type,String url) {
 
         sb.append("  <error>\n");
-        sb.append("    <string>").append(error).append("</string>\n");
+        sb.append("    <string>").append(errorText).append("</string>\n");
         sb.append("    <description>").append(desc).append("</description>\n");
         sb.append("    <precontext>").append((pre != null) ? pre : "").append("</precontext>\n");
         sb.append("    <suggestions>\n");
@@ -34,6 +34,7 @@ public class XMLCreator {
         }
         sb.append("    </suggestions>\n");
         sb.append("    <type>").append(type).append("</type>\n");
+        sb.append("    <url>").append(url).append("</url>\n");
         sb.append("  </error>\n");
       
     }

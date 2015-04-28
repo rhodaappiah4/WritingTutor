@@ -32,6 +32,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
     function removeWords(word){
         console.debug("REM");
 
+
         var dom = editor.dom, se = editor.selection, bookmark = se.getBookmark();
         dom.remove(dom.select('div'));
         //<span([^>])*>|<\/span([^>])*>
@@ -55,6 +56,10 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
         se.moveToBookmark(bookmark);
         console.debug("/REM");
     }
+    function htmlTAGCleanUp(htmlStr){
+        var regex = new RegExp('<([^>])*>',"g");
+        return htmlStr.replace(regex,"");
+    }
     function findErrorData(word,pre){
         var found = null;
         each(editor.suggestions,function(error){
@@ -72,10 +77,11 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
 
         each(errors, function(errorData)
         {
-            var errWordRgxVal = errorData["word"].replace(/\s+/g, '[' + regexEsc + ']');
+            var symEscaped = errorData["word"];//.replace(/(?:[\\\!\#\$\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\]\^\_\{\|\}\�\”\“\"\']{1})/g,"\\$&");
+            var errWordRgxVal = symEscaped.replace(/\s+/g, '[' + regexEsc + ']');
             if (errorData["pre"] == "") {
                 errWordRgxVal =  '(?:(.{0})(' + errWordRgxVal + '))';
-                regexNErrorDataList.push({regex:new RegExp('^(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'),
+                regexNErrorDataList.push({regex:new RegExp('(?:(.{0})(' + errWordRgxVal + ')(.{0}))', 'gm'),
                     err:findErrorData(errorData['word'],errorData['pre'])});
             } else {
                 errWordRgxVal = '(?:(' + errorData["pre"] + '[' + regexEsc + ']+)(' + errWordRgxVal + '))';
@@ -126,7 +132,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
                             '<div class="header">Explanation</div>'+
                             '<div class="explanation">'+
                             '<div class="url">' +
-                            //urldata+
+                                errdata.moreinfo +
                             '</div>'+
                             '</div>'+
                             '</div>' +
@@ -135,6 +141,7 @@ tinymce.PluginManager.add('WritingTutor', function(editor, url) {
                             //console.log("@R:" + nValue);
                         });
                         newNode = dom.create('span', null, nValue);
+
                    // }
                 }
                 //console.debug(newNode);
@@ -159,7 +166,8 @@ editor.addButton('review', {
         editor.suggestions = [];
         editor.setProgressState(1);
         removeWords();
-        Request_XHR('../ATDWeb/request.php',editor.getContent({format:"raw"}),function(xmlString) {
+        var strippedContent = htmlTAGCleanUp(editor.getContent());
+        Request_XHR('../ATDWeb/request.php',strippedContent,function(xmlString) {
             xmlString = xmlString.replace(/\"$/g,"").trim();
             console.log(xmlString);
             xmlString = $.parseXML(xmlString.substr(xmlString.indexOf('<'),xmlString.lastIndexOf('>')+1));
@@ -174,7 +182,8 @@ editor.addButton('review', {
                 var errorDescription = $(value).find('description').text();
                 var errorContext = ($(value).find('precontext') != undefined)?
                     $(value).find('precontext').text():"";
-
+                var moreInfoURL = ($(value).find('url') != undefined)?
+                    $(value).find('url').text():"";
                 var errorDataSet = {};
                 errorDataSet["description"] = errorDescription;
                 errorDataSet["suggestions"] = [];
@@ -182,6 +191,7 @@ editor.addButton('review', {
                 errorDataSet["context"]     = errorContext;
                 errorDataSet["string"]      = errorString;
                 errorDataSet["type"]        = errorType;
+                errorDataSet["moreinfo"]    = moreInfoURL;
 
                 if ($(value).find('suggestions') != undefined){
                     var suggestions =  $(value).find('suggestions').find('option');
@@ -190,15 +200,6 @@ editor.addButton('review', {
                     }
                 }
 
-                //TODO: setup url for explanation
-                //* setup the more info url */
-                //if (errors[i].getElementsByTagName('url').item(0) != undefined)
-                //{
-                //    var errorUrl = errors[i].getElementsByTagName('url').item(0).firstChild.data;
-                //    var theme    = editor.getParam("atd_theme", "tinymce");
-                //    errorDataSet["moreinfo"] = errorUrl + '&theme=' + theme;
-                //    //console.log(errorUrl);
-                //}
 
                 editor.suggestions.push(errorDataSet);
                 if (errorType == "errorDataSet")

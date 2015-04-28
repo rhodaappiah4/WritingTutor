@@ -8,6 +8,7 @@ $(document).ready(function(){
     var input = $('#inputArea');
     var textbox = $('#inputEssay');
     var comment = $("#comment");
+    var comment_student = $("#comment_student");
     var userID = $('#userID_Holder').html();
     var userType = $('#userType_Holder').html();
 
@@ -27,7 +28,7 @@ $(document).ready(function(){
     var nltk,atd,bigrams,trigrams,sentence;
     //usertype 2 is a tutor
     if(userType==2) {
-        input.hide();
+        input.hide();comment_student.hide();
         $('#submitBtn,#saveEssay').hide();
         output.show();
         var str="";  var t = 0;
