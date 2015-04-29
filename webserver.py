@@ -69,7 +69,7 @@ class GetHandler(BaseHTTPRequestHandler):
                             taglist.append(tag) 
                             # counts number of words in sentence
                             numberOfWords=len(tagged) 
-
+                        i = i.replace('"','\"')
                         query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and newP_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
                         print(query) 
                         cur.execute(query)

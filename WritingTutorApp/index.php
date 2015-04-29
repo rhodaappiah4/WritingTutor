@@ -82,9 +82,7 @@ if($_SESSION['username']==null){
     </div>
 </section>
 <section id="comment_student" about="" class="columns small-2">
-    <div class="card">
 
-        </div>
     </section>
 <br><br>
 <div id="sentence"></div><br>

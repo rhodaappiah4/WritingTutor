@@ -107,7 +107,7 @@ $(document).ready(function(){
         checkEssayBody = input.val();
         console.log(checkEssayBody);
         var essayTitle = $('#title').val();
-        if(essayTitle== String.Empty){
+        if(essayTitle== String.empty()){
             tMCE.windowManager.alert("Please add a title to your essay.");
             return;
         }
@@ -228,7 +228,7 @@ function showEssay(esID,caller){
         return res;
     }
     $.get('../ATDWeb/request.php',{selectEssay:2,essayID:esID},function(data){
-        var str = "",inStr = "";
+        var str = "",inStr = "", commStr = "";
         $.each(data,function(key,sentenceData){
 
             var sentence = sentenceData[0];
@@ -253,9 +253,11 @@ function showEssay(esID,caller){
             "</span>" +
             "</span>";
 
+            commStr+=createCommentsForStudent(sentence,comment);
 
             spinner.hide();
         });
+        $('#comment_student').html(commStr);
         $('#outputArea').html(str);
         $('#inputArea').html(inStr);
         console.log(inStr);
@@ -263,7 +265,19 @@ function showEssay(esID,caller){
     },"json");
 
 }
-
+function createCommentsForStudent(sent,comm){
+    var str="";
+    if(comm.trim()!="None") {
+        str =
+            '<br/>' +
+            '<div class="card">' +
+            '<p>'+sent+'</p>' +
+            '<hr/>' +
+            '<article>'+comm+'</article>' +
+            '</div>';
+    }
+    return str;
+}
 function htmlTAGCleanUp(htmlStr){
     var regex = new RegExp('<([^>])*>',"g");
     return htmlStr.replace(regex,"");
