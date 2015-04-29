@@ -51,8 +51,10 @@ public class ParseHandler extends HttpServlet {
         if (ParamMap.containsKey("analyze")){
             EssayParser ep = new EssayParser();
             try (PrintWriter out = response.getWriter()) {
+
                 out.println(ep.analyze(ParamMap.get("analyze")[0]));
-            } 
+            }  
+                
         }
 
      

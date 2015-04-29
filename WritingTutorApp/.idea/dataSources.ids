@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - writingTutor@localhost" uuid="4d18bf75-f594-44b2-979c-a061d1c211f4">
+    <database-info product="MySQL" version="5.6.21" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.31 ( Revision: alexander.soklakov@oracle.com-20140520065950-groqzzbvxprqdmnz )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="writingtutor"/>
+    <table name="essays" schema="" catalog="writingtutor" type="TABLE">
+      <column name="essay_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="essay_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="essay_description" sqlType="VARCHAR" precision="140" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="essay_id"/>
+      <exported-key name="paragraphs_ibfk_1" table="paragraphs" schema="" catalog="writingtutor" columns="fk_essay_id"/>
+      <exported-key name="user_essay_link_ibfk_1" table="user_essay_link" schema="" catalog="writingtutor" columns="fk_essay_id"/>
+    </table>
+    <table name="misused_words" schema="" catalog="writingtutor" type="TABLE">
+      <column name="misused_word_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="misused_word_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="misused_word_description" sqlType="VARCHAR" precision="140" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="misused_word_id"/>
+    </table>
+    <table name="paragraphs" schema="" catalog="writingtutor" type="TABLE">
+      <column name="paragraph_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_essay_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="paragraph_number" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="paragraph_comment" sqlType="VARCHAR" precision="140" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="paragraph_id"/>
+      <foreign-key name="paragraphs_ibfk_1" columns="fk_essay_id" ref-table="essays" ref-schema="" ref-catalog="writingtutor" ref-columns="essay_id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <exported-key name="sentences_ibfk_1" table="sentences" schema="" catalog="writingtutor" columns="fk_paragraph_id"/>
+    </table>
+    <table name="sentences" schema="" catalog="writingtutor" type="TABLE">
+      <column name="sentence_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_paragraph_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="sentence_number" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="sentence" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="tags" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="total_words" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sentence_quality" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sentence_comment" sqlType="VARCHAR" precision="140" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="sentence_id"/>
+      <foreign-key name="sentences_ibfk_1" columns="fk_paragraph_id" ref-table="paragraphs" ref-schema="" ref-catalog="writingtutor" ref-columns="paragraph_id" update-rule="0" delete-rule="0" deferrability="2"/>
+    </table>
+    <table name="user_essay_link" schema="" catalog="writingtutor" type="TABLE">
+      <column name="link_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="fk_user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="fk_essay_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="reviewed_status" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="link_id"/>
+      <foreign-key name="user_essay_link_ibfk_1" columns="fk_essay_id" ref-table="essays" ref-schema="" ref-catalog="writingtutor" ref-columns="essay_id" update-rule="0" delete-rule="0" deferrability="2"/>
+      <foreign-key name="user_essay_link_ibfk_2" columns="fk_user_id" ref-table="users" ref-schema="" ref-catalog="writingtutor" ref-columns="user_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_essay_link_ibfk_1" unique="false" columns="fk_essay_id"/>
+    </table>
+    <table name="user_type" schema="" catalog="writingtutor" type="TABLE">
+      <column name="user_type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_type" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="user_type_id"/>
+      <exported-key name="users_ibfk_1" table="users" schema="" catalog="writingtutor" columns="fk_user_type_id"/>
+    </table>
+    <table name="users" schema="" catalog="writingtutor" type="TABLE">
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="firstname" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="lastname" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_password" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
+      <column name="fk_user_type_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_id"/>
+      <foreign-key name="users_ibfk_1" columns="fk_user_type_id" ref-table="user_type" ref-schema="" ref-catalog="writingtutor" ref-columns="user_type_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="user_essay_link_ibfk_2" table="user_essay_link" schema="" catalog="writingtutor" columns="fk_user_id"/>
+    </table>
+  </data-source>
+</component>

@@ -14,7 +14,7 @@ if (isset($_REQUEST["analyze"])) {
     $url = "http://localhost:8008/parserver/parseHandler?analyze=" . $str; //calls python
     $contents .= get_url_contents($url);
     $url = 'http://localhost:1049/checkDocument?data=' . $str; //calls ATD TODO: add atd key
-    $url = 'http://service.afterthedeadline.com/checkDocument?data=' . $str; //calls ATD TODO: add atd key
+//    $url = 'http://service.afterthedeadline.com/checkDocument?data=' . $str; //calls ATD TODO: add atd key
     $contents .= get_url_contents($url);
 
     $contents = str_replace('<results>',"",$contents);

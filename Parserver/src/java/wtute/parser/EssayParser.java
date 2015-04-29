@@ -85,8 +85,9 @@ public class EssayParser {
         System.out.println(tdl);
         return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield() + "\n\n";
     }
-
-    public String analyze(String essay) {
+ 
+    public String analyze(String essay) { 
+        XMLCreator xmlc = new XMLCreator(); 
         Reader reader = new StringReader(essay);
         DocumentPreprocessor dp = new DocumentPreprocessor(reader);
         for (List<HasWord> sentence : dp) {
