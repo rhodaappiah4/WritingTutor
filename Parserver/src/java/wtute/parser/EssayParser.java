@@ -77,6 +77,16 @@ public class EssayParser {
         }
         return parsedOut;
     }
+    public Tree getTreeOf(String... sentences) {
+        Tree parseTree= null;
+        for (String sentence : sentences) {
+            Tokenizer<? extends HasWord> toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(sentence));
+            List<? extends HasWord> essayTok = toke.tokenize();
+            parseTree = lp.parse(essayTok);
+             
+        }
+        return parseTree;
+    }
 
     private String parse(Tree toParse) {
         GrammaticalStructure gs = gsf.newGrammaticalStructure(toParse);
@@ -97,12 +107,13 @@ public class EssayParser {
     }
 
     public void commaSplice(List<HasWord> sentence) {
-         
+         System.out.println("SPLICEr");
         Tree sentenceTree = lp.parse(sentence); 
         Iterator<Tree> iter = sentenceTree.iterator();
         for (Tree subTree : sentenceTree) {
             if (subTree.label().toString().equals(",")) {
                 List<Tree> siblings = subTree.siblings(sentenceTree); 
+                System.out.println(siblings);
                 if (!siblings.isEmpty()) {
                     Tree next = TreeHelper.nextSibling(subTree, sentenceTree);
                     Tree prev = TreeHelper.prevSibling(subTree, sentenceTree);

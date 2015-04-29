@@ -5,8 +5,10 @@
  */
 package wtute.engine;
 
-import java.sql.Connection;
+import edu.stanford.nlp.trees.Tree;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
@@ -14,6 +16,7 @@ import weka.core.Instances;
 import weka.experiment.InstanceQuery;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.*;
+import wtute.parser.EssayParser;
 
 /**
  *
@@ -22,55 +25,79 @@ import weka.filters.unsupervised.attribute.*;
 public class AnalysisEngine {
 
     private FastVector attributeList;
-    public AnalysisEngine(){
-        attributeList = new FastVector();
-    }
+    private Instances data;
 
-    public static void train() throws Exception {
+    public AnalysisEngine() throws Exception {
+        attributeList = new FastVector();
         Class.forName("com.mysql.jdbc.Driver").newInstance();
-        
+
         InstanceQuery query = new InstanceQuery();
         query.setUsername("root");
         query.setPassword("");
         query.setQuery("select sentence,sentence_quality from sentences");
         //data set is sparse
         query.setSparseData(true);
-        Instances data = query.retrieveInstances(); 
-        if (data.classIndex() == -1){
-            data.setClassIndex(data.numAttributes() - 1);
-        }
-        for(int i =0;i<data.numInstances();i++){
-            Instance instance = data.instance(i); 
-        }
-       
-       
+        data = query.retrieveInstances();
         StringToWordVector nts = new StringToWordVector();
-        nts.setInputFormat(data); 
-        Instances newData = Filter.useFilter(data, nts); 
-        
-        System.out.println(newData);
+        nts.setInputFormat(data);
+        data = Filter.useFilter(data, nts);
+    }
+
+    public void train() throws Exception {
+
+        Instances trainingInstances = createInstances("TRAINING INS");
+        for (int i = 0; i < data.numInstances(); i++) {
+            Instance instance = convertInstance(data.instance(i));
+        }
+
         System.out.println(data);
     }
-     private Instances createInstances(final String INSTANCES_NAME)
-    {
-        FastVector fv  = new FastVector();
+
+    private Instances createInstances(final String INSTANCES_NAME) {
+        FastVector fv = new FastVector();
         fv.addElement("KOL");
-         attributeList.addElement(new Attribute("Tags",fv ));
-          fv.addElement("KOL2");
-         attributeList.addElement(new Attribute("Tags2",fv ));
-        
+        attributeList.addElement(new Attribute("Sentence", fv));
+        fv.addElement("KOL2");
+        attributeList.addElement(new Attribute("Level 0", fv));
+        attributeList.addElement(new Attribute("Level 1", fv));
+        attributeList.addElement(new Attribute("Level 2", fv));
+        attributeList.addElement(new Attribute("Level 3", fv));
+        attributeList.addElement(new Attribute("Quality", fv));
+
         //create an Instances object with initial capacity as zero 
-        Instances instances = new Instances(INSTANCES_NAME,attributeList,0);
-        
+        Instances instances = new Instances(INSTANCES_NAME, attributeList, 0);
+
         //sets the class index as the last attribute (positive or negative)
-        instances.setClassIndex(instances.numAttributes()-1);
-            System.out.println(instances);
+        instances.setClassIndex(instances.numAttributes() - 1);
+        System.out.println(instances);
         return instances;
     }
+
     public static void main(String[] args) throws Exception {
-       // train();
+        // train();
         AnalysisEngine ae = new AnalysisEngine();
         ae.createInstances("Test");
-                
+
+    }
+
+    private Instance convertInstance(Instance instance) { 
+        EssayParser ep = new EssayParser();
+        Tree pt = ep.getTreeOf(instance.stringValue(0));
+        List<Tree> tl = pt.getChildrenAsList();
+        for(Tree tree:tl){
+            
+        }
+        return null;
+    }
+    HashMap<Integer,ArrayList<String>> levels = new HashMap<>();
+   
+    private String createLevels(Tree tree,int level){
+        List<Tree> tl = tree.getChildrenAsList();
+        levels.put(level,new ArrayList(tl));
+        
+        for(Tree t:tl){
+            createLevels(t,level+1);
+        }
+        return null;
     }
 }
