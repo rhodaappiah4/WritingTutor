@@ -9,6 +9,7 @@ import edu.stanford.nlp.trees.Tree;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import weka.classifiers.trees.J48;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
@@ -48,9 +49,23 @@ public class AnalysisEngine {
         Instances trainingInstances = createInstances("TRAINING INS");
         for (int i = 0; i < data.numInstances(); i++) {
             Instance instance = convertInstance(data.instance(i));
+
+            instance.setDataset(trainingInstances);
+            trainingInstances.add(instance);
         }
 
         System.out.println(data);
+        J48 classifier = new J48();
+
+        try {
+            //classifier training code
+            classifier.buildClassifier(trainingInstances);
+
+            //storing the trained classifier to a file for future use
+            weka.core.SerializationHelper.write("J48.model", classifier);
+        } catch (Exception ex) {
+            System.out.println("Exception in training the classifier.");
+        }
     }
 
     private Instances createInstances(final String INSTANCES_NAME) {
@@ -73,6 +88,26 @@ public class AnalysisEngine {
         return instances;
     }
 
+    private Instance convertInstance(Instance instance) {
+        EssayParser ep = new EssayParser();
+        Tree pt = ep.getTreeOf(instance.stringValue(0));
+        List<Tree> tl = pt.getChildrenAsList();
+        for (Tree tree : tl) {
+               
+        }
+        return null;
+    }
+    HashMap<Integer, ArrayList<String>> levels = new HashMap<>();
+
+    private String createLevels(Tree tree, int level) {
+        List<Tree> tl = tree.getChildrenAsList();
+        levels.put(level, new ArrayList(tl)); 
+        for (Tree t : tl) {
+            createLevels(t, level + 1);
+        }
+        return null;
+    }
+
     public static void main(String[] args) throws Exception {
         // train();
         AnalysisEngine ae = new AnalysisEngine();
@@ -80,24 +115,4 @@ public class AnalysisEngine {
 
     }
 
-    private Instance convertInstance(Instance instance) { 
-        EssayParser ep = new EssayParser();
-        Tree pt = ep.getTreeOf(instance.stringValue(0));
-        List<Tree> tl = pt.getChildrenAsList();
-        for(Tree tree:tl){
-            
-        }
-        return null;
-    }
-    HashMap<Integer,ArrayList<String>> levels = new HashMap<>();
-   
-    private String createLevels(Tree tree,int level){
-        List<Tree> tl = tree.getChildrenAsList();
-        levels.put(level,new ArrayList(tl));
-        
-        for(Tree t:tl){
-            createLevels(t,level+1);
-        }
-        return null;
-    }
 }

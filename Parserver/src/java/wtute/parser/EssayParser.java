@@ -15,11 +15,12 @@ import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
+import edu.stanford.nlp.trees.tregex.TregexMatcher;
+import edu.stanford.nlp.trees.tregex.TregexPattern;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
 import wtute.engine.TreeHelper;
 import wtute.engine.XMLCreator;
 
@@ -77,13 +78,14 @@ public class EssayParser {
         }
         return parsedOut;
     }
+
     public Tree getTreeOf(String... sentences) {
-        Tree parseTree= null;
+        Tree parseTree = null;
         for (String sentence : sentences) {
             Tokenizer<? extends HasWord> toke = tlp.getTokenizerFactory().getTokenizer(new StringReader(sentence));
             List<? extends HasWord> essayTok = toke.tokenize();
             parseTree = lp.parse(essayTok);
-             
+
         }
         return parseTree;
     }
@@ -95,46 +97,59 @@ public class EssayParser {
         System.out.println(tdl);
         return toParse.pennString() + "\n" + tdl + "\n" + toParse.taggedYield() + "\n\n";
     }
- 
+
     public String analyze(String essay) { 
-        XMLCreator xmlc = new XMLCreator(); 
         Reader reader = new StringReader(essay);
         DocumentPreprocessor dp = new DocumentPreprocessor(reader);
         for (List<HasWord> sentence : dp) {
             commaSplice(sentence);
-        } 
+        }
         return xmlc.getErrorXML();
     }
 
     public void commaSplice(List<HasWord> sentence) {
-         System.out.println("SPLICEr");
-        Tree sentenceTree = lp.parse(sentence); 
+        System.out.println("SPLICEr");
+        Tree sentenceTree = lp.parse(sentence);
         Iterator<Tree> iter = sentenceTree.iterator();
-        for (Tree subTree : sentenceTree) {
-            if (subTree.label().toString().equals(",")) {
-                List<Tree> siblings = subTree.siblings(sentenceTree); 
-                System.out.println(siblings);
-                if (!siblings.isEmpty()) {
-                    Tree next = TreeHelper.nextSibling(subTree, sentenceTree);
-                    Tree prev = TreeHelper.prevSibling(subTree, sentenceTree);
-                    boolean b = TreeHelper.isConjunction(next);
-                    boolean c = TreeHelper.isAdjectivalPhrase(prev);
-                    if (!b && !c) {
-                        String errorSect = Sentence.listToString(prev.lastChild().yieldWords()).trim() +", "
-                        +  Sentence.listToString(next.firstChild().yieldWords());
-                        xmlc.addError(errorSect,
-                        "Comma splice: You have used a comma to separate two individual sentences",
-                        null, new String[]{"or", "and", "but", "so", " ; ", " . "}, "grammar","Consider using a "
-                                + "conjunction after the comma, a semi-colon or a full-stop to break the sentence.");
-                    }
-                }
+        TregexPattern pattern = TregexPattern.compile("@S < (@S $+ (/,/ $+ (@NP $+ @VP))) | < (@NP $+ (@VP $+ (/,/ $+ @VP)))");
+        TregexPattern patternTwo = TregexPattern.compile("@VP < (@VP $+ (/,/ $+ @VP))");
+        TregexPattern patternThree = TregexPattern.compile("@S < (@S $+ (/,/ $+ @S))");
+        TregexMatcher matcher = pattern.matcher(sentenceTree);
+        TregexMatcher matcherTwo = patternTwo.matcher(sentenceTree);
+        TregexMatcher matcherThree = patternThree.matcher(sentenceTree);
+        boolean oneFound, twoFound = false, threeFound = false;
+        while ((oneFound = matcher.findNextMatchingNode())
+                || (twoFound = matcherTwo.findNextMatchingNode())
+                || (threeFound = matcherThree.findNextMatchingNode())) {
+            Tree match;
+            if (oneFound) {
+                System.out.println("1");
+                match = matcher.getMatch();
+            } else if (twoFound) {
+                System.out.println("2");
+                match = matcherTwo.getMatch();
+            } else {
+                System.out.println("3");
+                match = matcherThree.getMatch();
             }
-        } 
+
+            System.out.println(Sentence.listToString(match.yield()));
+            List<Tree> tl = match.preOrderNodeList(); 
+           
+                    String errorSect = tl.get(tl.indexOf(Tree.valueOf("(, ,)"))-1) + ", "
+                    +  Sentence.listToString(tl.get(tl.indexOf(Tree.valueOf("(, ,)"))+2).yieldWords()) ;
+                    System.out.println(errorSect);
+            xmlc.addError(errorSect,
+                    "Comma splice: You have used a comma to separate two individual sentences",
+                    null, new String[]{"or", "and", "but", "so", " ; ", " . "}, "grammar", "Consider using a "
+                    + "conjunction after the comma, a semi-colon or a full-stop to break the sentence.");
+             
+        }
     }
 
     public static void main(String[] args) {
         EssayParser ep = new EssayParser();
-        ep.analyze("It was raining, we stayed home. It was raining, so we stayed home.\n"
+        ep.analyze("The sun is high, put on some sunblock. It was raining, we stayed home. It was raining, so we stayed home.\n"
                 + "The pink shirt is $20, black shirt is $18, dark pant is $15.\n"
                 + "It can help salesperson to promote up-sales and cross sales, provide better services.\n"
                 + "We hiked for three days, we were very tired.\n"

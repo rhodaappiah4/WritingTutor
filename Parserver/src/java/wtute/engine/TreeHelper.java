@@ -48,4 +48,16 @@ public class TreeHelper {
         String headTag = head.label().toString();
         return (headTag.equals("ADVP"));
     }
+     public static boolean isVP(Tree head) {
+        String headTag = head.label().toString();
+        return (headTag.equals("VP"));
+    }
+     public static boolean isNP(Tree head) {
+        String headTag = head.label().toString();
+        return (headTag.equals("NP"));
+    }
+      public static boolean isSentence(Tree head) {
+        String headTag = head.label().toString();
+        return (headTag.equals("S"));
+    }
 }
