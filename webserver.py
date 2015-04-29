@@ -69,7 +69,7 @@ class GetHandler(BaseHTTPRequestHandler):
                             taglist.append(tag) 
                             # counts number of words in sentence
                             numberOfWords=len(tagged) 
-                        i = i.replace('"','\"')
+                        i = i.replace('"','\\"')
                         query='INSERT INTO `sentences`(fk_paragraph_id,sentence_number,sentence,tags,total_words,sentence_comment) VALUES ("{!s}","{!s}","{!s}","{!s}","{!s}","{!s}")'.format(paragraph_id-1 if ((newline and newP_count>2)) else paragraph_id,sentence_count,i,taglist,numberOfWords,"None")
                         print(query) 
                         cur.execute(query)
@@ -110,7 +110,7 @@ class GetHandler(BaseHTTPRequestHandler):
                 "FROM sentences,paragraphs,essays WHERE paragraph_id=fk_paragraph_id AND essay_id=fk_essay_id AND essay_id={!s} " +
                 "GROUP BY paragraph_id ORDER BY (sentence_number);").format(essay)
             """
-            query=("SELECT sentence, sentence_id, sentence_comment, sentence_quality,paragraph_id "+
+            query=("SELECT essay_name,sentence, sentence_id, sentence_comment, sentence_quality,paragraph_id "+
                 "FROM sentences, paragraphs, essays WHERE paragraph_id = fk_paragraph_id "+
                 "AND essay_id = fk_essay_id AND essay_id = {!s} ORDER BY (sentence_id);").format(essay)
         
